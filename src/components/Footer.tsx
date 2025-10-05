@@ -11,7 +11,7 @@ export const Footer = () => {
               <span className="text-foreground"> MEDIA</span>
             </h3>
             <p className="text-sm text-muted-foreground">
-              Transforming brands through innovative digital solutions.
+              Turning stories into solutions.
             </p>
           </div>
 

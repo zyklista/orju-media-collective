@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SEO } from "../SEO";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,149 +12,286 @@ import { useToast } from "@/hooks/use-toast";
 const Contact = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    message: ""
+    firstName: "",
+    lastName: "",
+    companyWebsite: "",
+    jobTitle: "",
+    workEmail: "",
+    region: "",
+    category: "",
+    help: "",
+    budget: "",
+    hearAbout: "",
+    stayInTouch: false,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Basic required field validation
+    const requiredFields = [
+      'firstName', 'lastName', 'jobTitle', 'workEmail', 'region', 'category', 'help', 'hearAbout'
+    ];
+    for (const field of requiredFields) {
+      if (!formData[field as keyof typeof formData]) {
+        toast({
+          title: 'Please complete all required fields.',
+          description: '',
+          variant: 'destructive',
+        });
+        return;
+      }
+    }
     toast({
       title: "Message Sent!",
-      description: "We'll get back to you as soon as possible.",
+      description: "Thank you for reaching out. We'll get back to you as soon as possible.",
     });
-    setFormData({ name: "", email: "", company: "", message: "" });
+    setFormData({
+      firstName: "",
+      lastName: "",
+      companyWebsite: "",
+      jobTitle: "",
+      workEmail: "",
+      region: "",
+      category: "",
+      help: "",
+      budget: "",
+      hearAbout: "",
+      stayInTouch: false,
+    });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Contact Orju Media | Filipino Digital Agency Europe"
+        description="Contact Orju Media for digital, media, and creative services. Offices in the Philippines, Canada, and Europe."
+      />
       <Navigation />
       
       {/* Hero Section */}
-      <section className="gradient-hero pt-32 pb-20 px-6">
-        <div className="container mx-auto">
-          <div className="max-w-4xl animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              Get In <span className="text-gradient">Touch</span>
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              Let's discuss how we can help transform your digital presence.
-            </p>
-          </div>
+      <section className="relative gradient-hero pt-32 pb-20 px-6 overflow-hidden">
+        <img
+          src="/hero-bg.svg"
+          alt="Decorative background"
+          className="absolute left-1/2 top-0 -translate-x-1/2 w-[900px] max-w-none opacity-60 pointer-events-none select-none"
+          style={{ left: '50%', transform: 'translateX(-50%)', top: 20 }}
+          aria-hidden="true"
+        />
+        <div className="container mx-auto relative z-10 flex flex-col items-center text-center">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-fade-in">
+            Contact <span className="text-gradient">Orju Media</span>
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mb-8 animate-fade-in" style={{animationDelay: '100ms'}}>
+            We’d love to hear from you. Whether you have a project in mind, want to collaborate, or just want to say hello, fill out the form or reach us through the details below.
+          </p>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="animate-fade-in-up">
-              <h2 className="text-3xl font-bold mb-6">Send us a message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
+      <section className="py-0 px-0">
+        <div className="w-full">
+          {/* Contact Form - now full width, no margin */}
+          <div className="bg-card/80 rounded-none shadow-none p-0 animate-fade-in-up border-0 w-full">
+            <h2 className="text-3xl font-bold mb-6 px-6 pt-12">Send us a message</h2>
+            <form onSubmit={handleSubmit} className="space-y-6 px-6 pb-12 w-full max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="firstName">FIRST NAME*</Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      required
+                      className="mt-2"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName">LAST NAME*</Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      required
+                      className="mt-2"
+                    />
+                  </div>
+                </div>
                 <div>
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="companyWebsite">COMPANY WEBSITE (if there’s any)</Label>
                   <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
+                    id="companyWebsite"
+                    name="companyWebsite"
+                    type="url"
+                    value={formData.companyWebsite}
                     onChange={handleChange}
-                    required
                     className="mt-2"
                   />
                 </div>
-                
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="mt-2"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="jobTitle">JOB TITLE*</Label>
+                    <Input
+                      id="jobTitle"
+                      name="jobTitle"
+                      value={formData.jobTitle}
+                      onChange={handleChange}
+                      required
+                      className="mt-2"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="workEmail">WORK EMAIL*</Label>
+                    <Input
+                      id="workEmail"
+                      name="workEmail"
+                      type="email"
+                      value={formData.workEmail}
+                      onChange={handleChange}
+                      required
+                      className="mt-2"
+                    />
+                  </div>
                 </div>
-                
-                <div>
-                  <Label htmlFor="company">Company (Optional)</Label>
-                  <Input
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="mt-2"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="region">REGION*</Label>
+                    <select
+                      id="region"
+                      name="region"
+                      value={formData.region}
+                      onChange={handleChange}
+                      required
+                      className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-base text-foreground"
+                    >
+                      <option value="" disabled>Select region</option>
+                      <option value="Philippines">Philippines</option>
+                      <option value="Canada">Canada</option>
+                      <option value="USA">USA</option>
+                      <option value="Europe">Europe</option>
+                      <option value="Czech Republic">Czech Republic</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="category">CHOOSE THE CATEGORY THAT BEST DESCRIBES YOUR INQUIRY*</Label>
+                    <select
+                      id="category"
+                      name="category"
+                      value={formData.category}
+                      onChange={handleChange}
+                      required
+                      className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-base text-foreground"
+                    >
+                      <option value="" disabled>Select category</option>
+                      <option value="General Inquiry">General Inquiry</option>
+                      <option value="Partnership">Partnership</option>
+                      <option value="Media Services">Media Services</option>
+                      <option value="Careers">Careers</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
                 </div>
-                
                 <div>
-                  <Label htmlFor="message">Message</Label>
+                  <Label htmlFor="help">HOW CAN WE HELP YOUR BRAND?*</Label>
                   <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
+                    id="help"
+                    name="help"
+                    value={formData.help}
                     onChange={handleChange}
                     required
-                    className="mt-2 min-h-[150px]"
+                    className="mt-2 min-h-[100px]"
                   />
                 </div>
-                
-                <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="hidden" />
+                  <div>
+                    <Label htmlFor="hearAbout">HOW DID YOU HEAR ABOUT US?*</Label>
+                    <Input
+                      id="hearAbout"
+                      name="hearAbout"
+                      value={formData.hearAbout}
+                      onChange={handleChange}
+                      required
+                      className="mt-2"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 mt-4">
+                  <input
+                    id="stayInTouch"
+                    name="stayInTouch"
+                    type="checkbox"
+                    checked={formData.stayInTouch}
+                    onChange={handleChange}
+                    className="w-5 h-5 rounded border border-input accent-primary"
+                  />
+                  <Label htmlFor="stayInTouch" className="cursor-pointer select-none">
+                    If you’d like to stay in touch, please check this box!
+                  </Label>
+                </div>
+                <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow mt-2">
                   Send Message
                 </Button>
               </form>
-            </div>
-
-            {/* Contact Info */}
-            <div className="space-y-8 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+          </div>
+          {/* Office Locations & Info - aligned horizontally below the form */}
+          <div className="animate-fade-in-up px-6 pb-20 w-full max-w-6xl mx-auto" style={{ animationDelay: '200ms' }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {/* Our Offices */}
               <div>
-                <h2 className="text-3xl font-bold mb-6">Contact Information</h2>
-                <p className="text-lg text-muted-foreground mb-8">
-                  Reach out to us through any of these channels, and we'll respond promptly.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="gradient-card p-3 rounded-lg border border-border/50">
-                    <Mail className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-muted-foreground">contact@orjumedia.com</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="gradient-card p-3 rounded-lg border border-border/50">
-                    <Phone className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Phone</h3>
-                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="gradient-card p-3 rounded-lg border border-border/50">
-                    <MapPin className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Office</h3>
-                    <p className="text-muted-foreground">
-                      123 Digital Avenue<br />
-                      Innovation District<br />
-                      Tech City, TC 12345
-                    </p>
+                <h2 className="text-2xl font-bold mb-4">Our Offices</h2>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="gradient-card p-3 rounded-lg border border-border/50">
+                      <MapPin className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Europe Office</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Dandova 2619/13<br />
+                        Praha 9, Horni Počernice<br />
+                        19300
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
+              {/* Contact Information */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Contact Information</h2>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="gradient-card p-3 rounded-lg border border-border/50">
+                      <Mail className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Email</h3>
+                      <p className="text-muted-foreground text-sm">contact@orjumedia.com</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="gradient-card p-3 rounded-lg border border-border/50">
+                      <Phone className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Phone</h3>
+                      <p className="text-muted-foreground text-sm">+420774900384</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Spacer or additional info (optional) */}
+              <div className="hidden md:block" />
             </div>
           </div>
         </div>

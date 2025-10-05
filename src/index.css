@@ -51,6 +51,51 @@ All colors MUST be HSL.
     --shadow-card: 0 4px 20px -4px hsl(220 40% 15% / 0.08);
     --shadow-hover: 0 8px 30px -6px hsl(220 40% 15% / 0.12);
   }
+
+  .dark {
+    --background: 220 40% 10%;
+    --foreground: 35 30% 96%;
+
+    --card: 220 40% 14%;
+    --card-foreground: 35 30% 96%;
+
+    --popover: 220 40% 14%;
+    --popover-foreground: 35 30% 96%;
+
+    --primary: 220 60% 60%;
+    --primary-foreground: 220 40% 10%;
+
+    --secondary: 220 40% 20%;
+    --secondary-foreground: 35 30% 96%;
+
+    --muted: 220 40% 16%;
+    --muted-foreground: 35 30% 80%;
+
+    --accent: 4 85% 60%;
+    --accent-foreground: 220 40% 10%;
+
+    --accent-blue: 200 85% 60%;
+    --accent-blue-foreground: 220 40% 10%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 35 30% 96%;
+
+    --border: 220 40% 20%;
+    --input: 220 40% 20%;
+    --ring: 220 60% 60%;
+
+    --radius: 0.5rem;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(220 40% 10%), hsl(220 40% 14%));
+    --gradient-card: linear-gradient(180deg, hsl(220 40% 14%), hsl(220 40% 10%));
+    --gradient-accent: linear-gradient(90deg, hsl(4 85% 60%), hsl(200 85% 60%));
+    
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(4 85% 60% / 0.15);
+    --shadow-card: 0 4px 20px -4px hsl(35 30% 96% / 0.08);
+    --shadow-hover: 0 8px 30px -6px hsl(35 30% 96% / 0.12);
+  }
 }
 
 @layer base {

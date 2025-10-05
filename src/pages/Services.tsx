@@ -1,156 +1,171 @@
 import { Navigation } from "@/components/Navigation";
+import { SEO } from "../SEO";
 import { Footer } from "@/components/Footer";
 import { Monitor, Megaphone, Video, Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-const packages = [
-  {
-    icon: Monitor,
-    title: "Starter Presence Kit",
-    tagline: "Pang-sideline starter 🚀",
-    description: "Perfect for entrepreneurs and creatives ready to launch their digital presence with confidence.",
-    price: "20,000 CZK / €800",
-    features: [
-      "5-page responsive website (Home, About, Services, Contact + 1 custom page)",
-      "Mobile-friendly design with Filipino-inspired touches",
-      "Basic SEO setup for local & global reach",
-      "Social media link integration",
-      "1-month post-launch support"
-    ],
-    addOns: "Add-ons: Custom forms (€150), Blog setup (€200), E-commerce (€400)",
-    cta: "Get Started"
-  },
-  {
-    icon: Megaphone,
-    title: "Growth & Storytelling Bundle",
-    tagline: "Para sa seryosong negosyo 💼",
-    description: "For businesses ready to grow their brand with authentic storytelling and strategic content.",
-    price: "45,000 CZK / €1,800",
-    features: [
-      "Everything in Starter Kit",
-      "Content strategy session (1 hour)",
-      "4 blog posts or social media campaigns per month",
-      "Monthly analytics & insights report",
-      "Email marketing setup (MailChimp/Brevo)",
-      "3 months content + tech support"
-    ],
-    addOns: "Add-ons: Video testimonials (€300), Podcast editing (€250/episode)",
-    cta: "Work With Us",
-    popular: true
-  },
-  {
-    icon: Video,
-    title: "Media Launchpad",
-    tagline: "Full Filipino storytelling power 🎙️",
-    description: "Complete media production for brands ready to amplify their voice through podcasts, videos, and campaigns.",
-    price: "Custom pricing",
-    features: [
-      "Podcast or video series production (4-6 episodes)",
-      "Full editing, branding, and distribution strategy",
-      "Social media content repurposing",
-      "Audience growth consultation",
-      "Ongoing partnership for long-term storytelling"
-    ],
-    addOns: "Perfect for: Cultural campaigns, OFW stories, business podcasts",
-    cta: "Let's Talk"
-  }
+const services = [
+	{
+		key: "web-dev",
+		icon: Monitor,
+		title: "Website Development",
+		description: "Modern, responsive websites tailored for entrepreneurs, creatives, and organizations. We build with accessibility, speed, and Filipino-inspired design in mind.",
+		images: [
+			"/services/web-dev.jpg"
+		],
+		features: [
+			"Custom design & development",
+			"Mobile-first & SEO-ready",
+			"Easy content management",
+			"E-commerce & blog options"
+		]
+	},
+	{
+		key: "content-creation",
+		icon: Megaphone,
+		title: "Content Creation",
+		description: "Engaging copy, blogs, and social media content that tells your brand story and connects with your audience.",
+			images: [
+				"/services/affiliate-partnership.jpg"
+			],
+		features: [
+			"Creative visuals & graphics",
+			"Social media campaigns",
+			"Brand messaging & strategy",
+			"Spotlight your brand and story"
+		]
+	},
+	{
+		key: "media-production",
+		icon: Video,
+		title: "Media Production",
+		description: "Professional video, podcast, and photography services for brands ready to amplify their voice.",
+		images: [
+			"/services/media-production.jpg"
+		],
+		features: [
+			"Podcast & video production",
+			"Editing & post-production",
+			"Photography & creative direction",
+			"Distribution & promotion"
+		]
+		},
+		{
+			key: "advertisement-partnership",
+			icon: Megaphone,
+			title: "Advertisement Partnership",
+			description: "Earn commissions and grow your network by partnering with Orju Media. Get co-branded marketing, dedicated support-perfect for agencies, consultants, businesses, and community leaders.",
+			images: [
+				"/services/content-creation.jpg"
+			],
+			features: [
+        "Expose your business to a wider audience as a brand and partner",
+				"Attractive commission structure for refferrals",
+				"Easy referral process",
+				"Dedicated partner support",
+				"Co-branded marketing materials"
+			]
+		}
 ];
 
 const Services = () => {
-  return (
-    <div className="min-h-screen">
-      <Navigation />
-      
-      {/* Hero Section */}
-      <section className="gradient-hero pt-32 pb-20 px-6">
-        <div className="container mx-auto text-center">
-          <div className="max-w-4xl mx-auto animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              Our <span className="text-gradient">Services</span>
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Choose the package that fits your journey. From launching your first site to building a full media presence—
-              <span className="text-foreground font-semibold"> andito kami para sa'yo.</span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Cards */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {packages.map((pkg, index) => (
-              <div
-                key={pkg.title}
-                className={`gradient-card p-8 rounded-xl border-2 ${
-                  pkg.popular ? 'border-accent shadow-hover' : 'border-border'
-                } hover:shadow-hover hover:border-primary/30 transition-all duration-300 animate-fade-in-up flex flex-col relative`}
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {pkg.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-bold">
-                    Most Popular
-                  </div>
-                )}
-                
-                <div className="mb-6">
-                  <pkg.icon className="w-12 h-12 text-primary mb-4" />
-                  <h3 className="text-2xl font-bold mb-2">{pkg.title}</h3>
-                  <p className="text-sm text-accent font-medium mb-3">{pkg.tagline}</p>
-                  <p className="text-muted-foreground mb-4">{pkg.description}</p>
-                  <div className="text-3xl font-bold text-primary mb-2">{pkg.price}</div>
-                </div>
-
-                <ul className="space-y-3 mb-6 flex-grow">
-                  {pkg.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3">
-                      <Check className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-auto">
-                  <p className="text-xs text-muted-foreground mb-4 italic">{pkg.addOns}</p>
-                  <Link to="/contact">
-                    <Button 
-                      className={`w-full ${
-                        pkg.popular 
-                          ? 'bg-accent hover:bg-accent/90 text-accent-foreground' 
-                          : 'bg-primary hover:bg-primary/90 text-primary-foreground'
-                      }`}
-                    >
-                      {pkg.cta} <ArrowRight className="ml-2" size={16} />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-6 bg-secondary/30">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">Not sure which package fits?</h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Book a free 30-minute consultation and let's map out your digital journey together. 
-            <span className="text-foreground font-semibold"> Walang pressure, pure collaboration lang!</span>
-          </p>
-          <Link to="/contact">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-card">
-              Schedule a Call <ArrowRight className="ml-2" size={20} />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
-  );
+		return (
+			<div className="min-h-screen">
+				<SEO
+					title="Services | Orju Media Collective"
+					description="Explore Orju Media's web development, content creation, and media production services for Filipino and multicultural brands."
+				>
+				</SEO>
+			<Navigation />
+			{/* Hero Section */}
+					<section className="gradient-hero pt-32 pb-20 px-6 relative overflow-hidden">
+						<img
+							src="/hero-bg.svg"
+							alt="Decorative background"
+							className="absolute left-1/2 top-0 -translate-x-1/2 w-[900px] max-w-none opacity-60 pointer-events-none select-none"
+							style={{ left: '50%', transform: 'translateX(-50%)', top: 0 }}
+							aria-hidden="true"
+						/>
+						<div className="container mx-auto text-center relative z-10">
+							<div className="max-w-4xl mx-auto animate-fade-in">
+								<h1 className="text-5xl md:text-7xl font-bold mb-6">
+									Our <span className="text-gradient">Services</span>
+								</h1>
+								<p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+									Choose the package that fits your journey. From launching your first site to building a full media presence—
+									<span className="text-foreground font-semibold"> we're here for you.</span>
+								</p>
+							</div>
+						</div>
+					</section>
+			{/* Dynamic Services Section */}
+					<section className="py-20 px-6">
+						<div className="container mx-auto max-w-5xl space-y-24">
+							{services.map((service, idx) => (
+								<section key={service.key} className="space-y-8">
+									<div className="flex flex-col md:flex-row items-center gap-12 animate-fade-in-up" style={{animationDelay: `${idx * 100}ms`}}>
+																				<div className="flex-1 flex justify-center items-center">
+																					<span className="inline-block">
+																						<service.icon
+																							className="w-32 h-32 md:w-48 md:h-48 animate-bounce-slow drop-shadow-lg"
+																							aria-label={service.title + ' icon'}
+																							style={{ stroke: 'url(#gradient-' + idx + ')' }}
+																						/>
+																						<svg width="0" height="0">
+																							<defs>
+																								<linearGradient id={`gradient-${idx}`} x1="0%" y1="0%" x2="100%" y2="100%">
+																									<stop offset="0%" stopColor="#ff6a00" />
+																									<stop offset="50%" stopColor="#ee0979" />
+																									<stop offset="100%" stopColor="#00c3ff" />
+																								</linearGradient>
+																							</defs>
+																						</svg>
+																					</span>
+																					<style>{`
+																						@keyframes bounce-slow {
+																							0%, 100% { transform: translateY(0); }
+																							50% { transform: translateY(-24px); }
+																						}
+																						.animate-bounce-slow {
+																							animation: bounce-slow 2.5s infinite;
+																						}
+																						.drop-shadow-lg {
+																							filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
+																						}
+																						.w-32, .h-32, .md\\:w-48, .md\\:h-48 {
+																							stroke-width: 1.5;
+																						}
+																					`}</style>
+																				</div>
+										<div className="flex-1">
+											<div className="flex items-center gap-3 mb-2">
+												<service.icon className="w-8 h-8 text-primary" />
+												<h2 className="text-3xl font-bold">{service.title}</h2>
+											</div>
+											<p className="mb-4 text-muted-foreground">{service.description}</p>
+											<ul className="text-base text-foreground space-y-2 mb-4">
+												{service.features.map((feature) => (
+													<li key={feature} className="flex items-center gap-2">
+														<Check className="w-4 h-4 text-primary" />
+														{feature}
+													</li>
+												))}
+											</ul>
+											<Link to="/contact">
+												<Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+													Inquire Now <ArrowRight className="ml-2 w-4 h-4" />
+												</Button>
+											</Link>
+										</div>
+									</div>
+								</section>
+							))}
+						</div>
+					</section>
+			<Footer />
+		</div>
+	);
 };
 
 export default Services;

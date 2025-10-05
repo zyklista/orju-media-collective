@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SEO } from "../SEO";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -29,35 +30,51 @@ const benefits = [
 
 const openPositions = [
   {
-    title: "Senior Web Developer",
+    title: "Full-stack Web Developer",
     department: "Engineering",
-    type: "Full-time",
+    type: "Part-time",
     location: "Remote"
   },
   {
     title: "Content Strategist",
     department: "Content",
-    type: "Full-time",
+    type: "Part-time",
     location: "Hybrid"
   },
   {
     title: "Digital Marketing Manager",
     department: "Marketing",
-    type: "Full-time",
+    type: "Part-time",
     location: "On-site"
   },
   {
-    title: "Video Producer",
+    title: "Videographer",
     department: "Production",
-    type: "Contract",
-    location: "Remote",
-    status: "Opening Soon"
+    type: "Project-based",
+    location: "Remote or On-site"
+  },
+  {
+    title: "Video Editor",
+    department: "Production",
+    type: "Project-based",
+    location: "Remote"
+  },
+  {
+    title: "Photographer",
+    department: "Production",
+    type: "Project-based",
+    location: "On-site"
   }
 ];
 
 const Careers = () => {
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Careers at Orju Media | Join Our Team"
+        description="Explore career opportunities at Orju Media. Join a multicultural team passionate about digital, media, and creative innovation."
+      >
+      </SEO>
       <Navigation />
       
       {/* Hero Section */}
@@ -109,9 +126,9 @@ const Careers = () => {
                   <div>
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-2xl font-bold">{position.title}</h3>
-                      {position.status && (
+                      {"status" in position && position.status && (
                         <span className="text-xs bg-primary/20 text-primary px-3 py-1 rounded-full">
-                          {position.status}
+                          {String(position.status)}
                         </span>
                       )}
                     </div>

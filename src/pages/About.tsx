@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SEO } from "../SEO";
 import { Footer } from "@/components/Footer";
 import { Target, Users, Award, Sparkles } from "lucide-react";
 
@@ -28,6 +29,11 @@ const values = [
 const About = () => {
   return (
     <div className="min-h-screen">
+      <SEO
+        title="About Orju Media | Filipino Community-First Digital Company"
+        description="Learn about Orju Media, a community-first digital and media company rooted in Filipino creativity, serving multicultural entrepreneurs and organizations."
+      >
+      </SEO>
       <Navigation />
       
       {/* Hero Section */}
