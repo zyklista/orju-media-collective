@@ -4,24 +4,24 @@ import { Target, Users, Award, Sparkles } from "lucide-react";
 
 const values = [
   {
-    icon: Target,
-    title: "Mission-Driven",
-    description: "We're committed to delivering exceptional digital solutions that drive real business results."
-  },
-  {
     icon: Users,
-    title: "Client-Focused",
-    description: "Your success is our success. We build lasting partnerships based on trust and transparency."
-  },
-  {
-    icon: Award,
-    title: "Excellence",
-    description: "We maintain the highest standards in everything we do, from strategy to execution."
+    title: "Community Care",
+    description: "Every project feels like a genuine collaboration. We treat your vision like family."
   },
   {
     icon: Sparkles,
-    title: "Innovation",
-    description: "We stay ahead of the curve, leveraging cutting-edge technology and creative thinking."
+    title: "Authentic Storytelling",
+    description: "From Filipino journeys to global campaigns, we craft media that resonates with heart and truth."
+  },
+  {
+    icon: Target,
+    title: "Accessible Tech",
+    description: "We simplify websites, workflows, and automation so anyone can build confidently."
+  },
+  {
+    icon: Award,
+    title: "Cultural Connection",
+    description: "We bridge Filipino warmth with global professionalism, honoring every identity we serve."
   }
 ];
 
@@ -35,10 +35,10 @@ const About = () => {
         <div className="container mx-auto">
           <div className="max-w-4xl animate-fade-in">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              About <span className="text-gradient">ORJU MEDIA</span>
+              About <span className="text-gradient">Orju Media</span>
             </h1>
             <p className="text-xl text-muted-foreground">
-              We're a digital-first agency transforming how brands connect with their audiences.
+              A community-first digital and media company proudly rooted in Filipino creativity.
             </p>
           </div>
         </div>
@@ -47,19 +47,29 @@ const About = () => {
       {/* Story Section */}
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-4xl">
-          <h2 className="text-4xl font-bold mb-8">Our Story</h2>
+          <h2 className="text-4xl font-bold mb-8">Who We Are</h2>
           <div className="space-y-6 text-lg text-muted-foreground">
             <p>
-              ORJU MEDIA was founded with a singular vision: to help brands thrive in the digital age. 
-              We recognized that businesses needed more than just a website or a social media presence—they 
-              needed a strategic partner who could understand their unique challenges and craft solutions 
-              that deliver measurable results.
+              Orju Media is a community-first digital and media company based in Europe, proudly rooted in Filipino creativity. 
+              We specialize in website development, content creation, podcast and video production, and strategic partnerships—designed 
+              to help entrepreneurs, creatives, and organizations thrive online.
             </p>
             <p>
-              Today, we're a team of passionate creatives, strategists, and technologists working together 
-              to push the boundaries of what's possible in digital media. From website development to content 
-              creation, we bring a holistic approach to every project, ensuring that all elements work in 
-              harmony to achieve your goals.
+              Whether you're a Filipino entrepreneur, a small business owner, or a global brand seeking authentic multicultural 
+              engagement, we offer modular packages that blend tech, storytelling, and cultural insight.
+            </p>
+          </div>
+          
+          <h2 className="text-4xl font-bold mb-8 mt-16">Our Roots</h2>
+          <div className="space-y-6 text-lg text-muted-foreground">
+            <p>
+              Our platform <span className="text-primary font-semibold">Diary of an OFW</span> began as a storytelling space for 
+              Filipinos abroad. Today, it fuels our mission to turn stories into solutions—helping clients build their digital presence 
+              while honoring their cultural identity.
+            </p>
+            <p>
+              We believe that every brand has a story worth telling, and every community deserves tools that empower them to share it 
+              with the world. That's the heart of what we do at Orju Media.
             </p>
           </div>
         </div>
@@ -68,7 +78,7 @@ const About = () => {
       {/* Values Section */}
       <section className="py-20 px-6 bg-secondary/20">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Our Values</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">What We Stand For</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
               <div

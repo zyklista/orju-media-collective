@@ -8,7 +8,7 @@ const services = [
   {
     icon: Code,
     title: "Website Development",
-    description: "Transform your digital presence with cutting-edge web solutions built for performance, scalability, and user experience.",
+    description: "Transform your digital presence with culturally-informed web solutions that connect with your community and grow your business.",
     features: [
       "Custom web applications",
       "Responsive design",
@@ -20,7 +20,7 @@ const services = [
   {
     icon: Megaphone,
     title: "Advertisement Partnership",
-    description: "Strategic partnerships that amplify your brand's reach through data-driven campaigns and creative excellence.",
+    description: "Strategic partnerships that amplify your brand's reach while honoring authentic multicultural engagement and community values.",
     features: [
       "Digital marketing strategy",
       "Social media campaigns",
@@ -32,7 +32,7 @@ const services = [
   {
     icon: FileText,
     title: "Content Creation",
-    description: "Compelling content that tells your story, engages your audience, and drives meaningful connections.",
+    description: "Culturally-rooted content that tells your story with authenticity, engages your community, and builds lasting connections.",
     features: [
       "Brand storytelling",
       "Copywriting & editing",
@@ -45,7 +45,7 @@ const services = [
     icon: Video,
     title: "Video & Podcast Production",
     status: "Coming Soon",
-    description: "Professional production services for modern media including video content and podcast creation.",
+    description: "Professional media production that amplifies Filipino and multicultural voices through podcasts, video series, and branded content.",
     features: [
       "Video production",
       "Podcast recording & editing",

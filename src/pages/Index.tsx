@@ -37,13 +37,14 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="max-w-4xl animate-fade-in">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              We Build Digital
+              Empowering Communities
               <br />
-              <span className="text-gradient">Experiences</span>
+              <span className="text-gradient">Through Storytelling</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
-              ORJU MEDIA transforms brands through innovative digital solutions, 
-              strategic partnerships, and compelling content creation.
+              Orju Media empowers Filipino and multicultural communities through digital tools, 
+              creative storytelling, and culturally rooted media services. We build platforms that 
+              connect, inspire, and grow—one story, one website, one partnership at a time.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/services">
