@@ -61,10 +61,14 @@ const Contact = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
+    let fieldValue: string | boolean = value;
+    if (type === "checkbox" && "checked" in e.target) {
+      fieldValue = (e.target as HTMLInputElement).checked;
+    }
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: fieldValue,
     });
   };
 
@@ -73,11 +77,14 @@ const Contact = () => {
       <SEO
         title="Contact Orju Media | Filipino Digital Agency Europe"
         description="Contact Orju Media for digital, media, and creative services. Offices in the Philippines, Canada, and Europe."
+        image="https://lovable.dev/opengraph-image-p98pqg.png"
+        type="website"
+        twitterHandle="@orjumedia"
       />
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative gradient-hero pt-32 pb-20 px-6 overflow-hidden">
+  <section className="relative gradient-hero pt-28 pb-14 px-3 sm:px-6 overflow-hidden">
         <img
           src="/hero-bg.svg"
           alt="Decorative background"
@@ -86,11 +93,11 @@ const Contact = () => {
           aria-hidden="true"
         />
         <div className="container mx-auto relative z-10 flex flex-col items-center text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-fade-in">
+          <h1 className="text-3xl xs:text-5xl md:text-7xl font-bold mb-4 xs:mb-6 leading-tight animate-fade-in">
             Contact <span className="text-gradient">Orju Media</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mb-8 animate-fade-in" style={{animationDelay: '100ms'}}>
-            We’d love to hear from you. Whether you have a project in mind, want to collaborate, or just want to say hello, fill out the form or reach us through the details below.
+          <p className="text-base xs:text-xl text-muted-foreground max-w-2xl mb-6 xs:mb-8 animate-fade-in" style={{animationDelay: '100ms'}}>
+            Wed love to hear from you. Whether you have a project in mind, want to collaborate, or just want to say hello, fill out the form or reach us through the details below.
           </p>
         </div>
       </section>
@@ -100,9 +107,9 @@ const Contact = () => {
         <div className="w-full">
           {/* Contact Form - now full width, no margin */}
           <div className="bg-card/80 rounded-none shadow-none p-0 animate-fade-in-up border-0 w-full">
-            <h2 className="text-3xl font-bold mb-6 px-6 pt-12">Send us a message</h2>
-            <form onSubmit={handleSubmit} className="space-y-6 px-6 pb-12 w-full max-w-4xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <h2 className="text-2xl xs:text-3xl font-bold mb-4 xs:mb-6 px-3 xs:px-6 pt-8 xs:pt-12">Send us a message</h2>
+            <form onSubmit={handleSubmit} className="space-y-4 xs:space-y-6 px-3 xs:px-6 pb-8 xs:pb-12 w-full max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                   <div>
                     <Label htmlFor="firstName">FIRST NAME*</Label>
                     <Input
@@ -127,7 +134,7 @@ const Contact = () => {
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="companyWebsite">COMPANY WEBSITE (if there’s any)</Label>
+                  <Label htmlFor="companyWebsite">COMPANY WEBSITE (if theres any)</Label>
                   <Input
                     id="companyWebsite"
                     name="companyWebsite"
@@ -137,7 +144,7 @@ const Contact = () => {
                     className="mt-2"
                   />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                   <div>
                     <Label htmlFor="jobTitle">JOB TITLE*</Label>
                     <Input
@@ -162,7 +169,7 @@ const Contact = () => {
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                   <div>
                     <Label htmlFor="region">REGION*</Label>
                     <select
@@ -212,7 +219,7 @@ const Contact = () => {
                     className="mt-2 min-h-[100px]"
                   />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                   <div className="hidden" />
                   <div>
                     <Label htmlFor="hearAbout">HOW DID YOU HEAR ABOUT US?*</Label>
@@ -226,17 +233,17 @@ const Contact = () => {
                     />
                   </div>
                 </div>
-                <div className="flex items-center gap-3 mt-4">
+                <div className="flex items-center gap-2 xs:gap-3 mt-2 xs:mt-4">
                   <input
                     id="stayInTouch"
                     name="stayInTouch"
                     type="checkbox"
                     checked={formData.stayInTouch}
                     onChange={handleChange}
-                    className="w-5 h-5 rounded border border-input accent-primary"
+                    className="w-4 h-4 xs:w-5 xs:h-5 rounded border border-input accent-primary"
                   />
-                  <Label htmlFor="stayInTouch" className="cursor-pointer select-none">
-                    If you’d like to stay in touch, please check this box!
+                  <Label htmlFor="stayInTouch" className="cursor-pointer select-none text-xs xs:text-base">
+                    If youd like to stay in touch, please check this box!
                   </Label>
                 </div>
                 <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow mt-2">
@@ -245,21 +252,21 @@ const Contact = () => {
               </form>
           </div>
           {/* Office Locations & Info - aligned horizontally below the form */}
-          <div className="animate-fade-in-up px-6 pb-20 w-full max-w-6xl mx-auto" style={{ animationDelay: '200ms' }}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="animate-fade-in-up px-3 xs:px-6 pb-12 xs:pb-20 w-full max-w-6xl mx-auto" style={{ animationDelay: '200ms' }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 xs:gap-10">
               {/* Our Offices */}
               <div>
-                <h2 className="text-2xl font-bold mb-4">Our Offices</h2>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="gradient-card p-3 rounded-lg border border-border/50">
-                      <MapPin className="w-6 h-6 text-primary" />
+                <h2 className="text-lg xs:text-2xl font-bold mb-2 xs:mb-4">Our Offices</h2>
+                <div className="space-y-4 xs:space-y-6">
+                  <div className="flex items-start gap-3 xs:gap-4">
+                    <div className="gradient-card p-2 xs:p-3 rounded-lg border border-border/50">
+                      <MapPin className="w-5 h-5 xs:w-6 xs:h-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Europe Office</h3>
-                      <p className="text-muted-foreground text-sm">
+                      <p className="text-muted-foreground text-xs xs:text-sm">
                         Dandova 2619/13<br />
-                        Praha 9, Horni Počernice<br />
+                        Praha 9, Horni Poernice<br />
                         19300
                       </p>
                     </div>
@@ -268,24 +275,24 @@ const Contact = () => {
               </div>
               {/* Contact Information */}
               <div>
-                <h2 className="text-2xl font-bold mb-4">Contact Information</h2>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="gradient-card p-3 rounded-lg border border-border/50">
-                      <Mail className="w-6 h-6 text-primary" />
+                <h2 className="text-lg xs:text-2xl font-bold mb-2 xs:mb-4">Contact Information</h2>
+                <div className="space-y-4 xs:space-y-6">
+                  <div className="flex items-start gap-3 xs:gap-4">
+                    <div className="gradient-card p-2 xs:p-3 rounded-lg border border-border/50">
+                      <Mail className="w-5 h-5 xs:w-6 xs:h-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Email</h3>
-                      <p className="text-muted-foreground text-sm">contact@orjumedia.com</p>
+                      <p className="text-muted-foreground text-xs xs:text-sm">contact@orjumedia.com</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <div className="gradient-card p-3 rounded-lg border border-border/50">
-                      <Phone className="w-6 h-6 text-primary" />
+                  <div className="flex items-start gap-3 xs:gap-4">
+                    <div className="gradient-card p-2 xs:p-3 rounded-lg border border-border/50">
+                      <Phone className="w-5 h-5 xs:w-6 xs:h-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Phone</h3>
-                      <p className="text-muted-foreground text-sm">+420774900384</p>
+                      <p className="text-muted-foreground text-xs xs:text-sm">+420774900384</p>
                     </div>
                   </div>
                 </div>
