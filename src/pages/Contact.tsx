@@ -93,11 +93,11 @@ const Contact = () => {
           aria-hidden="true"
         />
         <div className="container mx-auto relative z-10 flex flex-col items-center text-center">
-          <h1 className="text-3xl xs:text-5xl md:text-7xl font-bold mb-4 xs:mb-6 leading-tight animate-fade-in">
+          <h1 className="text-5xl xs:text-7xl md:text-8xl font-bold mb-8 xs:mb-10 leading-tight animate-fade-in">
             Contact <span className="text-gradient">Orju Media</span>
           </h1>
-          <p className="text-base xs:text-xl text-muted-foreground max-w-2xl mb-6 xs:mb-8 animate-fade-in" style={{animationDelay: '100ms'}}>
-            Wed love to hear from you. Whether you have a project in mind, want to collaborate, or just want to say hello, fill out the form or reach us through the details below.
+          <p className="text-2xl xs:text-3xl text-muted-foreground max-w-2xl mb-10 xs:mb-14 animate-fade-in" style={{animationDelay: '100ms'}}>
+            We'd love to hear from you. Whether you have a project in mind, want to collaborate, or just want to say hello, fill out the form or reach us through the details below.
           </p>
         </div>
       </section>
@@ -107,7 +107,7 @@ const Contact = () => {
         <div className="w-full">
           {/* Contact Form - now full width, no margin */}
           <div className="bg-card/80 rounded-none shadow-none p-0 animate-fade-in-up border-0 w-full">
-            <h2 className="text-2xl xs:text-3xl font-bold mb-4 xs:mb-6 px-3 xs:px-6 pt-8 xs:pt-12">Send us a message</h2>
+            <h2 className="text-4xl xs:text-5xl font-bold mb-20 xs:mb-32 px-3 xs:px-6 pt-12 xs:pt-16">Send us a message</h2>
             <form onSubmit={handleSubmit} className="space-y-4 xs:space-y-6 px-3 xs:px-6 pb-8 xs:pb-12 w-full max-w-4xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                   <div>
@@ -134,19 +134,19 @@ const Contact = () => {
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="companyWebsite">COMPANY WEBSITE (if theres any)</Label>
+                  <Label htmlFor="companyWebsite" className="text-lg xs:text-2xl">COMPANY WEBSITE (if there’s any)</Label>
                   <Input
                     id="companyWebsite"
                     name="companyWebsite"
                     type="url"
                     value={formData.companyWebsite}
                     onChange={handleChange}
-                    className="mt-2"
+                    className="mt-2 text-lg xs:text-2xl"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                   <div>
-                    <Label htmlFor="jobTitle">JOB TITLE*</Label>
+                    <Label htmlFor="jobTitle" className="text-lg xs:text-2xl">JOB TITLE*</Label>
                     <Input
                       id="jobTitle"
                       name="jobTitle"
@@ -157,7 +157,7 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="workEmail">WORK EMAIL*</Label>
+                    <Label htmlFor="workEmail" className="text-lg xs:text-2xl">WORK EMAIL*</Label>
                     <Input
                       id="workEmail"
                       name="workEmail"
@@ -171,7 +171,7 @@ const Contact = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                   <div>
-                    <Label htmlFor="region">REGION*</Label>
+                    <Label htmlFor="region" className="text-lg xs:text-2xl">REGION*</Label>
                     <select
                       id="region"
                       name="region"
@@ -190,7 +190,7 @@ const Contact = () => {
                     </select>
                   </div>
                   <div>
-                    <Label htmlFor="category">CHOOSE THE CATEGORY THAT BEST DESCRIBES YOUR INQUIRY*</Label>
+                    <Label htmlFor="category" className="text-lg xs:text-2xl">CHOOSE THE CATEGORY THAT BEST DESCRIBES YOUR INQUIRY*</Label>
                     <select
                       id="category"
                       name="category"
@@ -209,27 +209,27 @@ const Contact = () => {
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="help">HOW CAN WE HELP YOUR BRAND?*</Label>
+                  <Label htmlFor="help" className="text-lg xs:text-2xl">HOW CAN WE HELP YOUR BRAND?*</Label>
                   <Textarea
                     id="help"
                     name="help"
                     value={formData.help}
                     onChange={handleChange}
                     required
-                    className="mt-2 min-h-[100px]"
+                    className="mt-2 min-h-[100px] text-lg xs:text-2xl"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                   <div className="hidden" />
                   <div>
-                    <Label htmlFor="hearAbout">HOW DID YOU HEAR ABOUT US?*</Label>
+                    <Label htmlFor="hearAbout" className="text-lg xs:text-2xl">HOW DID YOU HEAR ABOUT US?*</Label>
                     <Input
                       id="hearAbout"
                       name="hearAbout"
                       value={formData.hearAbout}
                       onChange={handleChange}
                       required
-                      className="mt-2"
+                      className="mt-2 text-lg xs:text-2xl"
                     />
                   </div>
                 </div>
@@ -242,69 +242,25 @@ const Contact = () => {
                     onChange={handleChange}
                     className="w-4 h-4 xs:w-5 xs:h-5 rounded border border-input accent-primary"
                   />
-                  <Label htmlFor="stayInTouch" className="cursor-pointer select-none text-xs xs:text-base">
-                    If youd like to stay in touch, please check this box!
+                  <Label htmlFor="stayInTouch" className="cursor-pointer select-none text-lg xs:text-2xl">
+                    If you'd like to stay in touch, please check this box!
                   </Label>
                 </div>
-                <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow mt-2">
+                <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow mt-2 text-2xl xs:text-3xl py-6">
                   Send Message
                 </Button>
               </form>
           </div>
-          {/* Office Locations & Info - aligned horizontally below the form */}
-          <div className="animate-fade-in-up px-3 xs:px-6 pb-12 xs:pb-20 w-full max-w-6xl mx-auto" style={{ animationDelay: '200ms' }}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 xs:gap-10">
-              {/* Our Offices */}
-              <div>
-                <h2 className="text-lg xs:text-2xl font-bold mb-2 xs:mb-4">Our Offices</h2>
-                <div className="space-y-4 xs:space-y-6">
-                  <div className="flex items-start gap-3 xs:gap-4">
-                    <div className="gradient-card p-2 xs:p-3 rounded-lg border border-border/50">
-                      <MapPin className="w-5 h-5 xs:w-6 xs:h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Europe Office</h3>
-                      <p className="text-muted-foreground text-xs xs:text-sm">
-                        Dandova 2619/13<br />
-                        Praha 9, Horni Poernice<br />
-                        19300
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Contact Information */}
-              <div>
-                <h2 className="text-lg xs:text-2xl font-bold mb-2 xs:mb-4">Contact Information</h2>
-                <div className="space-y-4 xs:space-y-6">
-                  <div className="flex items-start gap-3 xs:gap-4">
-                    <div className="gradient-card p-2 xs:p-3 rounded-lg border border-border/50">
-                      <Mail className="w-5 h-5 xs:w-6 xs:h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Email</h3>
-                      <p className="text-muted-foreground text-xs xs:text-sm">contact@orjumedia.com</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 xs:gap-4">
-                    <div className="gradient-card p-2 xs:p-3 rounded-lg border border-border/50">
-                      <Phone className="w-5 h-5 xs:w-6 xs:h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Phone</h3>
-                      <p className="text-muted-foreground text-xs xs:text-sm">+420774900384</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Spacer or additional info (optional) */}
-              <div className="hidden md:block" />
-            </div>
-          </div>
+          {/* Contact info below form is now hidden as requested */}
+          {/* <div className="h-32 xs:h-48" />
+          <div className="animate-fade-in-up px-3 xs:px-6 pb-12 xs:pb-20 w-full max-w-6xl mx-auto flex flex-col items-center" style={{ animationDelay: '200ms' }}>
+            ...contact info content...
+          </div> */}
         </div>
       </section>
 
-      <Footer />
+  <div className="h-60 xs:h-80" />
+  <Footer />
     </div>
   );
 };

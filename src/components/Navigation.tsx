@@ -3,33 +3,25 @@ import { Menu, X, Moon, Sun } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const navItems = [
+  { name: "Contact", path: "/contact" },
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
   { name: "Services", path: "/services" },
+  { name: "Merchandise", path: "/merchandise" },
   { name: "Careers", path: "/careers" },
-  { name: "Contact", path: "/contact" },
 ];
+
 
 
 export const Navigation = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark');
-    }
-    return false;
-  });
-
+  // Always enable dark mode
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => setDarkMode((d) => !d);
+    document.documentElement.classList.add('dark');
+  }, []);
+  const darkMode = true;
+  const toggleDarkMode = () => {};
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-lg bg-background/80">
@@ -46,22 +38,21 @@ export const Navigation = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  location.pathname === item.path
-                    ? "text-primary"
-                    : "text-muted-foreground"
+                className={`text-sm font-medium transition-colors ${
+                  item.name === 'Contact'
+                    ? 'bg-gradient-to-r from-primary to-red-500 text-white font-bold shadow-lg rounded px-4 py-2 hover:scale-105 transition-transform duration-200'
+                    : 'hover:text-primary'
+                } ${
+                  location.pathname === item.path && item.name !== 'Contact'
+                    ? 'text-primary'
+                    : item.name !== 'Contact'
+                      ? 'text-muted-foreground'
+                      : ''
                 }`}
               >
                 {item.name}
               </Link>
             ))}
-            <button
-              onClick={toggleDarkMode}
-              className="ml-4 p-2 rounded-full border border-border bg-card hover:bg-muted transition-colors"
-              aria-label="Toggle dark mode"
-            >
-              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -81,10 +72,16 @@ export const Navigation = () => {
                 key={item.path}
                 to={item.path}
                 onClick={() => setIsMenuOpen(false)}
-                className={`block text-sm font-medium transition-colors hover:text-primary ${
-                  location.pathname === item.path
-                    ? "text-primary"
-                    : "text-muted-foreground"
+                className={`block text-sm font-medium transition-colors ${
+                  item.name === 'Contact'
+                    ? 'bg-gradient-to-r from-primary to-red-500 text-white font-bold shadow-lg rounded px-4 py-2 hover:scale-105 transition-transform duration-200'
+                    : 'hover:text-primary'
+                } ${
+                  location.pathname === item.path && item.name !== 'Contact'
+                    ? 'text-primary'
+                    : item.name !== 'Contact'
+                      ? 'text-muted-foreground'
+                      : ''
                 }`}
               >
                 {item.name}

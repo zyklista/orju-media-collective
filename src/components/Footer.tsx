@@ -52,15 +52,30 @@ export const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-semibold mb-4">Connect</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
+          {/* Connect section with heading and Contact Us centered above address/info */}
+          <div className="md:col-start-4 flex flex-col items-start ml-4">
+            <div className="w-full flex flex-col items-start mb-4">
+              <h4 className="font-semibold mb-2">Connect</h4>
+              <Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Contact Us
+              </Link>
+            </div>
+            <div className="text-xs text-muted-foreground flex flex-row gap-8 space-y-0 w-full">
+              <div className="text-left">
+                <span className="font-bold block mb-1">Our Office</span>
+                <span className="block">ORJU MEDIA</span>
+                <span className="block">Dandova 2619/13</span>
+                <span className="block">Praha 9, Horni Pocernice</span>
+                <span className="block mb-2">19300</span>
+              </div>
+              <div className="text-left">
+                <span className="font-bold block mb-1">Contact Information</span>
+                <span className="block">Email</span>
+                <span className="block">contact@orjumedia.com</span>
+                <span className="block mt-1">Phone</span>
+                <span className="block">+420774900384</span>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -64,16 +64,16 @@ const Index = () => {
             <p className="text-base xs:text-lg md:text-xl text-muted-foreground mb-6 md:mb-8 max-w-2xl mx-auto md:mx-0 text-center md:text-left">
               Orju Media empowers Filipino and multicultural communities through digital tools, 
               creative storytelling, and culturally rooted media services. We build platforms that 
-              connect, inspire, and growone story, one website, one partnership at a time.
+              connect, inspire, and grow's one story, one website, one partnership at a time.
             </p>
             <div className="flex flex-col xs:flex-row flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
               <Link to="/services">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow w-full xs:w-auto">
-                  Explore Services <ArrowRight className="ml-2" size={20} />
+                <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow w-full xs:w-auto min-w-[120px]">
+                  Explore Services <ArrowRight className="ml-2" size={16} />
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 w-full xs:w-auto mt-2 xs:mt-0">
+                <Button size="sm" variant="outline" className="border-primary text-primary hover:bg-primary/10 w-full xs:w-auto min-w-[120px] mt-0">
                   Get in Touch
                 </Button>
               </Link>
@@ -98,7 +98,7 @@ const Index = () => {
         </div>
         <div className="mt-6 xs:mt-10 mb-8 xs:mb-12 w-full flex justify-center">
           <p className="w-full text-lg xs:text-2xl md:text-3xl font-semibold text-muted-foreground text-center px-2 xs:px-4 md:px-0">
-            At Orju Media, we blend creativity and technology to elevate your brand. Our services span website development, content creation, advertising partnerships, and multimedia production. Whether youre a startup, a growing business, or a community organization, we help you connect with your audience, tell your story, and achieve real impact in the digital world.
+            At Orju Media, we blend creativity and technology to elevate your brand. Our services span website development, content creation, advertising partnerships, and multimedia production. Whether you're a startup, a growing business, or a community organization, we help you connect with your audience, tell your story, and achieve real impact in the digital world.
           </p>
         </div>
         {/* What We Offer heading */}

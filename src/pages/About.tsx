@@ -40,10 +40,10 @@ const About = () => {
       <section className="gradient-hero pt-32 pb-20 px-6">
         <div className="container mx-auto">
           <div className="max-w-4xl animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <h1 className="text-7xl md:text-8xl font-bold mb-8">
               About <span className="text-gradient">Orju Media</span>
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-3xl text-muted-foreground">
               A community-first digital and media company proudly rooted in Filipino creativity.
             </p>
           </div>
@@ -53,8 +53,8 @@ const About = () => {
       {/* Story Section */}
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-4xl">
-          <h2 className="text-4xl font-bold mb-8">Who We Are</h2>
-          <div className="space-y-6 text-lg text-muted-foreground">
+          <h2 className="text-5xl font-bold mb-10">Who We Are</h2>
+          <div className="space-y-8 text-2xl text-muted-foreground">
             <p>
               Orju Media is a community-first digital and media company based in Europe, proudly rooted in Filipino creativity. 
               We specialize in website development, content creation, podcast and video production, and strategic partnerships—designed 
@@ -66,10 +66,10 @@ const About = () => {
             </p>
           </div>
           
-          <h2 className="text-4xl font-bold mb-8 mt-16">Our Roots</h2>
-          <div className="space-y-6 text-lg text-muted-foreground">
+          <h2 className="text-5xl font-bold mb-10 mt-20">Our Roots</h2>
+          <div className="space-y-8 text-2xl text-muted-foreground">
             <p>
-              Our platform <span className="text-primary font-semibold">Diary of an OFW</span> began as a storytelling space for 
+              Our platform <a href="https://diaryofanofw.com/" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold underline hover:text-primary/80">Diary of an OFW</a> began as a storytelling space for 
               Filipinos abroad. Today, it fuels our mission to turn stories into solutions—helping clients build their digital presence 
               while honoring their cultural identity.
             </p>
@@ -84,7 +84,7 @@ const About = () => {
       {/* Values Section */}
       <section className="py-20 px-6 bg-secondary/20">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">What We Stand For</h2>
+          <h2 className="text-5xl font-bold text-center mb-16">What We Stand For</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
               <div
@@ -92,9 +92,9 @@ const About = () => {
                 className="gradient-card p-8 rounded-lg border border-border/50 shadow-card animate-fade-in-up"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <value.icon className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                <p className="text-muted-foreground">{value.description}</p>
+                <value.icon className="w-16 h-16 text-primary mb-6" />
+                <h3 className="text-3xl font-bold mb-4">{value.title}</h3>
+                <p className="text-xl text-muted-foreground">{value.description}</p>
               </div>
             ))}
           </div>

@@ -71,7 +71,7 @@ const services = [
 
 const Services = () => {
 	return (
-		<div className="min-h-screen">
+		<div className="min-h-screen w-full">
 									<SEO
 										title="Services | Orju Media Collective"
 										description="Explore Orju Media's web development, content creation, and media production services for Filipino and multicultural brands."
@@ -94,18 +94,18 @@ const Services = () => {
 						<h1 className="text-3xl xs:text-5xl md:text-7xl font-bold mb-4 xs:mb-6">
 							Our <span className="text-gradient">Services</span>
 						</h1>
-						<p className="text-base xs:text-xl text-muted-foreground max-w-2xl mx-auto">
-							Choose the package that fits your journey. From launching your first site to building a full media presence
-							<span className="text-foreground font-semibold"> we're here for you.</span>
+						<p className="text-2xl xs:text-3xl text-muted-foreground max-w-2xl mx-auto">
+							Discover a range of creative and digital services designed to help you grow, connect, and succeed. Whether you’re launching your first website, building a brand, or expanding your media presence, our team is ready to support your journey every step of the way.<br/>
+							<span className="text-foreground font-extrabold">Let’s create something amazing together.</span>
 						</p>
 					</div>
 				</div>
 			</section>
 			{/* Dynamic Services Section */}
-			<section className="py-10 xs:py-16 md:py-20 px-3 xs:px-6">
-				<div className="container mx-auto max-w-5xl space-y-16 xs:space-y-24">
+			   <section className="py-4 xs:py-6 md:py-8 px-0 xs:px-0 w-full">
+				   <div className="w-full space-y-10 xs:space-y-14">
 					{services.map((service, idx) => (
-						<section key={service.key} className="space-y-6 xs:space-y-8">
+						<section key={service.key} className={`space-y-6 xs:space-y-8${idx === 0 ? ' mt-48 xs:mt-56' : ''}`}> 
 							<div className="flex flex-col md:flex-row items-center gap-6 xs:gap-12 animate-fade-in-up" style={{animationDelay: `${idx * 100}ms`}}>
 								<div className="flex-1 flex justify-center items-center">
 									<span className="inline-block">
@@ -140,13 +140,17 @@ const Services = () => {
 										}
 									`}</style>
 								</div>
-								<div className="flex-1 w-full">
-									<div className="flex items-center gap-2 xs:gap-3 mb-1 xs:mb-2">
-										<service.icon className="w-6 h-6 xs:w-8 xs:h-8 text-primary" />
-										<h2 className="text-xl xs:text-3xl font-bold">{service.title}</h2>
+								<div className="flex-1 w-full text-left">
+									<div className="flex items-center gap-2 xs:gap-3 mb-8 xs:mb-12">
+										{/* Remove icon from here, only show title */}
+										{service.key === "web-dev" ? (
+											<h2 className="text-4xl xs:text-6xl font-extrabold whitespace-nowrap">{service.title}</h2>
+										) : (
+											<h2 className="text-5xl xs:text-7xl font-extrabold">{service.title}</h2>
+										)}
 									</div>
-									<p className="mb-2 xs:mb-4 text-muted-foreground text-sm xs:text-base">{service.description}</p>
-									<ul className="text-sm xs:text-base text-foreground space-y-1 xs:space-y-2 mb-2 xs:mb-4">
+									<p className="mb-10 xs:mb-16 text-muted-foreground text-2xl xs:text-4xl">{service.description}</p>
+									<ul className="text-lg xs:text-2xl text-foreground space-y-1 xs:space-y-2 mb-8 xs:mb-12 font-medium">
 										{service.features.map((feature) => (
 											<li key={feature} className="flex items-center gap-1 xs:gap-2">
 												<Check className="w-3 h-3 xs:w-4 xs:h-4 text-primary" />
@@ -154,11 +158,13 @@ const Services = () => {
 											</li>
 										))}
 									</ul>
-									<Link to="/contact">
-										<Button className="bg-primary hover:bg-primary/90 text-primary-foreground w-full xs:w-auto">
-											Inquire Now <ArrowRight className="ml-2 w-4 h-4" />
-										</Button>
-									</Link>
+									<div className="mb-12 xs:mb-20">
+										<Link to="/contact">
+											<Button className="bg-primary hover:bg-primary/90 text-primary-foreground w-full xs:w-auto px-4 py-1.5 text-sm rounded-md">
+												Inquire Now <ArrowRight className="ml-2 w-4 h-4" />
+											</Button>
+										</Link>
+									</div>
 								</div>
 							</div>
 						</section>
