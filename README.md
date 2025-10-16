@@ -102,6 +102,44 @@ curl -X POST 'https://<your-project>.supabase.co/functions/v1/create-checkout' \
 
 You can deploy this project to any static hosting provider (Vercel, Netlify, etc.) or your own server. Make sure to set the required environment variables for Supabase in your deployment settings.
 
+## Deploying to Vercel with a custom domain (orjumedia.com)
+
+These are the steps to host this app on Vercel and point your Hostinger-managed domain to it.
+
+1. Create a Vercel project
+	- Go to https://vercel.com/new and import your GitHub repository (orju-media-collective).
+	- Use the default framework detection (Vite) and the build command `npm run build` (Vercel will detect `vite` automatically).
+
+2. Add your custom domain on Vercel
+	- In the Vercel dashboard, go to the Project -> Settings -> Domains and add `orjumedia.com` and `www.orjumedia.com`.
+
+3. Configure DNS at Hostinger
+	- In your Hostinger DNS panel, add the following records provided by Vercel. Most commonly Vercel will request an A record and/or CNAME and will show specific values. Typical options:
+	  - Add an A record for the apex domain (`orjumedia.com`) pointing to the Vercel IP (if Vercel provides one) or follow Vercel's instructions to use the required A records.
+	  - Add a CNAME for `www` pointing to `cname.vercel-dns.com` (Vercel will show exact target).
+	- Alternatively, use the nameserver delegation method if Hostinger supports changing nameservers to Vercel-provided nameservers.
+	- After adding DNS records, Vercel will verify the domain (this can take a few minutes due to DNS propagation).
+
+4. Set environment variables in Vercel (Production)
+	- In Vercel Project -> Settings -> Environment Variables, add:
+	  - `VITE_SUPABASE_URL` = https://<your-supabase-project>.supabase.co
+	  - `VITE_SUPABASE_ANON_KEY` = <your-anon-key>
+	- Do NOT add `STRIPE_SECRET_KEY` to Vercel environment variables. Instead, add Stripe secret to your Supabase Edge Function secrets (see below).
+
+5. Configure Supabase & Stripe for production
+	- In Supabase Dashboard -> Authentication -> Settings -> Redirect URLs add:
+	  - `https://orjumedia.com` and `https://www.orjumedia.com`
+	  - Also add your success/cancel callback URLs if they are used by Stripe (for example: `https://orjumedia.com/?checkout=success`)
+	- In Supabase Edge Functions -> create-checkout -> Settings -> Secrets add:
+	  - `STRIPE_SECRET_KEY` = sk_live_...(your Stripe secret key)
+	- In your Stripe Dashboard, add your webhook endpoint (if you plan to use webhooks) — typically `https://orjumedia.com/.netlify/functions/stripe-webhook` or a Supabase function endpoint; configure it to listen to `checkout.session.completed`.
+
+6. Deploy and test
+	- Push to `main` (Vercel will deploy automatically if connected to GitHub).
+	- Visit `https://orjumedia.com` and test the checkout flow. Monitor Vercel and Supabase logs for any errors.
+
+If you want, I can add a small `deploy.md` with screenshots and exact DNS values once you begin the Vercel domain assignment flow (Vercel shows exact records per project). I can also add a `CNAME` file or `vercel.json` to the repo if you prefer explicit configuration.
+
 ---
 
 &copy; {new Date().getFullYear()} ORJU MEDIA. All rights reserved.
