@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "node ./server/stripe-server.js",
+    "server:dev": "nodemon --watch server --exec node server/stripe-server.js",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",

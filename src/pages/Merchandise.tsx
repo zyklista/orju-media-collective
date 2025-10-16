@@ -1,88 +1,41 @@
 import { SEO } from "../SEO";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/supabaseClient";
+import { ShoppingCart } from "lucide-react";
 
-const products = [
-  // T-Shirts
-  {
-    name: "Orju T-Shirt",
-    image: "/placeholder.svg",
-    price: "$25",
-    description: "High-quality cotton t-shirt with Orju Media branding.",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-  },
-  {
-    name: "Diary Shirt Powder Blue",
-    image: "/placeholder.svg",
-    price: "$27",
-    description: "Powder blue t-shirt with Diary logo.",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-  },
-  {
-    name: "Diary Shirt Peach",
-    image: "/placeholder.svg",
-    price: "$27",
-    description: "Peach t-shirt with Diary logo.",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-  },
-  {
-    name: "Diary Shirt Black",
-    image: "/placeholder.svg",
-    price: "$27",
-    description: "Black t-shirt with Diary logo.",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-  },
-  // Caps
-  {
-    name: "Orju Cap",
-    image: "/placeholder.svg",
-    price: "$18",
-    description: "Classic cap with embroidered Orju Media logo.",
-    quantity: 5,
-  },
-  {
-    name: "Diary Baseball Cap Blue",
-    image: "/placeholder.svg",
-    price: "$20",
-    description: "Blue baseball cap with Diary logo.",
-    quantity: 5,
-  },
-  {
-    name: "Diary Baseball Cap Navy Blue",
-    image: "/placeholder.svg",
-    price: "$20",
-    description: "Navy blue baseball cap with Diary logo.",
-    quantity: 5,
-  },
-  {
-    name: "Diary Baseball Cap Black",
-    image: "/placeholder.svg",
-    price: "$20",
-    description: "Black baseball cap with Diary logo.",
-    quantity: 5,
-  },
-  {
-    name: "Diary Denim Cap Dark Gray",
-    image: "/placeholder.svg",
-    price: "$22",
-    description: "Denim cap in dark gray with Diary logo.",
-    quantity: 5,
-  },
-  {
-    name: "Diary Denim Cap Light Gray",
-    image: "/placeholder.svg",
-    price: "$22",
-    description: "Denim cap in light gray with Diary logo.",
-    quantity: 5,
-  },
-];
+type MerchandiseItem = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
+  sizes?: string[];
+};
 
+export default function Merchandise() {
+  const [items, setItems] = useState<MerchandiseItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currency, setCurrency] = useState<'USD' | 'CZK' | 'EUR' | 'PHP'>('CZK');
+  const [cartCount, setCartCount] = useState<number>(0);
+  const navigate = useNavigate();
 
-function Merchandise() {
-  const [selectedSizes, setSelectedSizes] = useState({});
-  const [capCount, setCapCount] = useState(1);
-  const [currency, setCurrency] = useState("USD");
+  // Add to cart logic using localStorage
+  const addToCart = (item: MerchandiseItem) => {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    cart.push({ ...item, quantity: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    setCartCount(Array.isArray(cart) ? cart.length : 0);
+  };
+
+  // Buy now: add to cart then go to cart page
+  const buyNow = (item: MerchandiseItem) => {
+    addToCart(item);
+    navigate('/cart');
+  };
 
   // Example static conversion rates
   const rates = {
@@ -92,104 +45,154 @@ function Merchandise() {
     CZK: 24,
   };
 
-  const currencySymbols = {
-    USD: "$",
-    PHP: "₱",
-    EUR: "€",
-    CZK: "Kč",
-  };
+  useEffect(() => {
+    const fetchItems = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) {
+        setError(error.message);
+      } else {
+        setItems(data || []);
+      }
+      setLoading(false);
+    };
+    fetchItems();
+  }, []);
 
-  const handleSizeChange = (productName: string, size: string) => {
-    setSelectedSizes((prev) => ({ ...prev, [productName]: size }));
-  };
-
-  const convertPrice = (usdPrice: string) => {
-    const num = parseFloat(usdPrice.replace("$", ""));
-    const converted = num * rates[currency];
-    return currency === "PHP" ? Math.round(converted) : converted.toFixed(2);
-  };
+  // initialize cart count and listen for storage changes (other tabs)
+  useEffect(() => {
+    const readCount = () => {
+      try {
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        setCartCount(Array.isArray(cart) ? cart.length : 0);
+      } catch (e) {
+        setCartCount(0);
+      }
+    };
+    readCount();
+    const onStorage = (e: StorageEvent) => {
+      if (!e.key || e.key === 'cart') readCount();
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   return (
     <div className="min-h-screen">
-      <SEO title="Merchandise | Orju Media Collective" description="Shop Orju Media Collective merchandise: T-shirts in all sizes and classic caps. Limited stock available!" />
+      <SEO
+        title="Orju Merchandise | T-Shirts, Caps, and More"
+        description="Shop Orju Media Collective merchandise: T-shirts, caps, and more. Select your currency and order your favorite Orju Media gear!"
+      />
       <Navigation />
       {/* Hero Section */}
-      <section className="relative gradient-hero pt-28 pb-14 px-3 sm:px-6 overflow-hidden">
-        <img
-          src="/hero-bg.svg"
-          alt="Decorative background"
-          className="absolute left-1/2 top-0 -translate-x-1/2 w-[900px] max-w-none opacity-60 pointer-events-none select-none"
-          style={{ left: '50%', transform: 'translateX(-50%)', top: 20 }}
-          aria-hidden="true"
-        />
-        <div className="container mx-auto relative z-10 flex flex-col items-center text-center">
-          <h1 className="text-5xl xs:text-7xl md:text-8xl font-bold mb-8 xs:mb-10 leading-tight animate-fade-in">
-            Orju <span className="text-gradient">Merchandise</span>
-          </h1>
-          <p className="text-2xl xs:text-3xl text-muted-foreground max-w-2xl mb-10 xs:mb-14 animate-fade-in" style={{animationDelay: '100ms'}}>
-            Shop our exclusive T-shirts and caps. Select your size, currency, and order your favorite Orju Media gear!
-          </p>
+      <section className="gradient-hero pt-32 pb-20 px-6">
+        <div className="container mx-auto">
+          <div className="max-w-4xl animate-fade-in">
+            <h1 className="text-7xl md:text-8xl font-bold mb-8">
+              Orju <span className="text-gradient">Merchandise</span>
+            </h1>
+            <p className="text-3xl text-muted-foreground">
+              Shop our exclusive T-shirts, caps, and more. Select your size, currency, and order your favorite Orju Media gear!
+            </p>
+          </div>
         </div>
       </section>
       {/* Merchandise Section */}
-      <section className="py-0 px-0">
-        <div className="w-full">
-          <div className="flex justify-center mb-12 xs:mb-20 animate-fade-in-up">
-            <label htmlFor="currency" className="mr-4 text-2xl xs:text-3xl font-bold">Currency:</label>
-            <select
-              id="currency"
-              value={currency}
-              onChange={e => setCurrency(e.target.value)}
-              className="border rounded px-4 py-2 text-2xl xs:text-3xl"
-            >
-              <option value="USD">USD ($)</option>
-              <option value="PHP">PHP (₱)</option>
-              <option value="EUR">EUR (€)</option>
-              <option value="CZK">CZK (Kč)</option>
-            </select>
+      <section className="py-20 px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-12 animate-fade-in-up">
+            <h2 className="text-5xl font-bold mb-6 md:mb-0">Our Products</h2>
+            <div className="flex items-center gap-4">
+              <label htmlFor="currency" className="mr-2 font-semibold text-xl">Currency:</label>
+              <select
+                id="currency"
+                value={currency}
+                onChange={e => setCurrency(e.target.value as 'USD' | 'CZK' | 'EUR' | 'PHP')}
+                className="border rounded px-3 py-2 text-lg bg-gray-800 text-white font-bold focus:outline-none focus:ring-2 focus:ring-primary"
+                style={{ minWidth: 120 }}
+              >
+                <option value="USD" className="bg-gray-900 text-white">USD ($)</option>
+                <option value="CZK" className="bg-gray-900 text-white">CZK (Kč)</option>
+                <option value="EUR" className="bg-gray-900 text-white">EUR (€)</option>
+                <option value="PHP" className="bg-gray-900 text-white">PHP (₱)</option>
+              </select>
+              <button
+                className="ml-2 relative p-2 rounded-full hover:bg-muted border border-border transition-colors"
+                aria-label="View Cart"
+                onClick={() => navigate('/cart')}
+              >
+                <ShoppingCart className="w-7 h-7" />
+                {cartCount > 0 && (
+                  <span
+                    className="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full shadow"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center animate-fade-in-up">
-            {products.map((product) => (
-              <div key={product.name} className="bg-card/80 rounded-lg border border-border/50 shadow-card p-8 w-full max-w-xs flex flex-col items-center">
-                <img src={product.image} alt={product.name} className="w-40 h-40 object-contain mb-6" />
-                <h2 className="text-3xl font-bold mb-3 text-center">{product.name}</h2>
-                <p className="text-xl text-muted-foreground text-center mb-3">{product.description}</p>
-                <span className="text-2xl font-bold mb-4">
-                  {currencySymbols[currency]}{convertPrice(product.price)}
-                </span>
-                {product.sizes && (
-                  <div className="mb-4 w-full">
-                    <label className="block text-lg font-bold mb-2">Select Size:</label>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      {product.sizes.map((size: string) => (
-                        <button
-                          key={size}
-                          className={`px-4 py-2 rounded border text-lg font-bold ${selectedSizes[product.name] === size ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}
-                          onClick={() => handleSizeChange(product.name, size)}
-                          type="button"
-                        >
-                          {size}
-                        </button>
-                      ))}
+          {loading && <p>Loading...</p>}
+          {error && <p className="text-red-500">Error: {error}</p>}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center animate-fade-in-up">
+            {items.map((item) => {
+              const convertedPrice = item.price * rates[currency];
+              let priceString = '';
+              if (currency === 'CZK') {
+                priceString = convertedPrice.toLocaleString('cs-CZ', { style: 'currency', currency: 'CZK' });
+              } else if (currency === 'EUR') {
+                priceString = convertedPrice.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+              } else if (currency === 'PHP') {
+                priceString = '₱' + Math.round(convertedPrice).toLocaleString('en-PH');
+              } else {
+                priceString = '$' + convertedPrice.toFixed(2);
+              }
+              return (
+                <div key={item.id} className="bg-card/80 rounded-lg border border-border/50 shadow-card p-10 w-full max-w-md flex flex-col items-center">
+                  <img
+                    src={
+                      item.image_url
+                        ? item.image_url.startsWith("http") || item.image_url.startsWith("/")
+                          ? item.image_url
+                          : "/" + item.image_url.replace(/^\/+/, "")
+                        : "/placeholder.svg"
+                    }
+                    alt={item.name}
+                    className="w-full h-72 object-cover mb-6 rounded shadow-lg"
+                    style={{ maxWidth: 320 }}
+                    onError={e => { e.currentTarget.src = "/placeholder.svg"; }}
+                  />
+                  <h2 className="text-2xl font-bold mb-2 text-center">{item.name}</h2>
+                  <p className="text-base text-muted-foreground text-center mb-2">{item.description}</p>
+                  <span className="text-lg font-bold mb-3">{priceString}</span>
+                  {item.sizes && item.sizes.length > 0 && (
+                    <div className="mb-3 w-full">
+                      <span className="font-semibold text-base">Sizes: </span>
+                      <span className="text-base font-semibold">{item.sizes.join(", ")}</span>
                     </div>
+                  )}
+                  <div className="mt-4 w-full grid grid-cols-2 gap-4">
+                    <button
+                      className="px-4 py-2 bg-card/80 text-card-foreground rounded font-semibold text-sm hover:bg-card/70 transition-colors w-full shadow-sm"
+                      onClick={() => addToCart(item)}
+                    >
+                      Add to Cart
+                    </button>
+                    <button
+                      className="px-4 py-2 bg-primary text-primary-foreground rounded font-semibold text-sm hover:bg-primary/90 transition-colors w-full shadow-glow"
+                      onClick={() => buyNow(item)}
+                    >
+                      Buy Now
+                    </button>
                   </div>
-                )}
-                {product.quantity && (
-                  <div className="mb-4 w-full">
-                    <label className="block text-lg font-bold mb-2">Quantity (max {product.quantity}):</label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={product.quantity}
-                      value={capCount}
-                      onChange={e => setCapCount(Math.max(1, Math.min(product.quantity, Number(e.target.value))))}
-                      className="w-24 px-3 py-2 border rounded text-center text-lg"
-                    />
-                  </div>
-                )}
-                <button className="mt-4 px-6 py-3 bg-primary text-primary-foreground rounded font-bold text-xl hover:bg-primary/90 transition-colors w-full shadow-glow">Contact to Order</button>
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -197,5 +200,3 @@ function Merchandise() {
     </div>
   );
 }
-
-export default Merchandise;

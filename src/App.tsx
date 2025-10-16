@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 import NotFound from "./pages/NotFound";
 import Merchandise from "./pages/Merchandise";
+import Cart from "./pages/Cart";
 
 import SupabaseTest from "./pages/SupabaseTest";
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/merchandise" element={<Merchandise />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/supabase-test" element={<SupabaseTest />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
