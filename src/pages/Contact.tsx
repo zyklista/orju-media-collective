@@ -81,9 +81,10 @@ const Contact = () => {
 
         console.log('Invoking Edge Function with payload:', payload);
 
-        // Using supabase-js invoke
+        // Using supabase-js invoke with explicit method
         const { data: funcData, error: funcError } = await supabase.functions.invoke('send-contact-email', { 
-          body: payload 
+          body: payload,
+          method: 'POST'
         });
 
         if (funcError) {
