@@ -37,8 +37,19 @@ const About = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="gradient-hero pt-32 pb-20 px-6">
-        <div className="container mx-auto">
+      <section className="gradient-hero pt-32 pb-20 px-6 relative overflow-hidden">
+        {/* Floating decorative icons */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div className="absolute top-20 right-16 opacity-15 animate-pulse" style={{ animationDuration: '3s' }}>
+            <Users className="w-20 h-20 text-primary" />
+          </div>
+          <div className="absolute bottom-32 left-20 opacity-10 animate-bounce" style={{ animationDuration: '4s' }}>
+            <Sparkles className="w-24 h-24 text-purple-500" />
+          </div>
+          <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto relative z-10">
           <div className="max-w-4xl animate-fade-in">
             <h1 className="text-7xl md:text-8xl font-bold mb-8">
               About <span className="text-gradient">Orju Media</span>
@@ -82,19 +93,45 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 px-6 bg-secondary/20">
-        <div className="container mx-auto">
+      <section className="py-20 px-6 bg-secondary/20 relative overflow-hidden">
+        {/* Decorative background pattern */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none" aria-hidden="true">
+          <div className="absolute top-10 left-10">
+            <div className="grid grid-cols-6 gap-4">
+              {[...Array(24)].map((_, i) => (
+                <div key={i} className="w-2 h-2 bg-primary rounded-full"></div>
+              ))}
+            </div>
+          </div>
+          <div className="absolute bottom-10 right-10">
+            <div className="grid grid-cols-6 gap-4">
+              {[...Array(24)].map((_, i) => (
+                <div key={i} className="w-2 h-2 bg-purple-500 rounded-full"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <div className="container mx-auto relative z-10">
           <h2 className="text-5xl font-bold text-center mb-16">What We Stand For</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
               <div
                 key={value.title}
-                className="gradient-card p-8 rounded-lg border border-border/50 shadow-card animate-fade-in-up"
+                className="gradient-card p-8 rounded-lg border border-border/50 shadow-card animate-fade-in-up relative group hover:shadow-lg transition-all duration-300"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <value.icon className="w-16 h-16 text-primary mb-6" />
-                <h3 className="text-3xl font-bold mb-4">{value.title}</h3>
-                <p className="text-xl text-muted-foreground">{value.description}</p>
+                {/* Glowing background on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                
+                <div className="relative z-10">
+                  <div className="relative inline-block mb-6">
+                    <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
+                    <value.icon className="w-16 h-16 text-primary relative z-10 transition-transform group-hover:scale-110 duration-300" />
+                  </div>
+                  <h3 className="text-3xl font-bold mb-4">{value.title}</h3>
+                  <p className="text-xl text-muted-foreground">{value.description}</p>
+                </div>
               </div>
             ))}
           </div>

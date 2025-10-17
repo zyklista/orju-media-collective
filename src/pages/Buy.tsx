@@ -92,10 +92,25 @@ export default function Buy() {
   }, [showStripe]);
 
   return (
-    <div>
-  <SEO title="Checkout | Orju Merchandise" description="Checkout for your Orju merchandise order." />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute top-32 right-16 opacity-10 animate-pulse" style={{ animationDuration: '2.5s' }}>
+          <svg className="w-24 h-24 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+          </svg>
+        </div>
+        <div className="absolute bottom-32 left-20 opacity-8 animate-bounce" style={{ animationDuration: '3.5s' }}>
+          <svg className="w-28 h-28 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+      </div>
+      
+      <SEO title="Checkout | Orju Merchandise" description="Checkout for your Orju merchandise order." />
       <Navigation />
-      <main className="container mx-auto py-8 px-4">
+      <main className="container mx-auto py-8 px-4 relative z-10">
         <h1 className="text-4xl font-bold mb-8">Checkout</h1>
         {success ? (
           <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded mb-8">

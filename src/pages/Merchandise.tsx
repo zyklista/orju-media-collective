@@ -48,13 +48,16 @@ export default function Merchandise() {
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
+      console.log('Fetching products from Supabase...');
       const { data, error } = await supabase
         .from("products")
         .select("*")
         .order("created_at", { ascending: false });
       if (error) {
+        console.error('Supabase error:', error);
         setError(error.message);
       } else {
+        console.log('Products fetched:', data);
         setItems(data || []);
       }
       setLoading(false);
@@ -88,8 +91,21 @@ export default function Merchandise() {
       />
       <Navigation />
       {/* Hero Section */}
-      <section className="gradient-hero pt-32 pb-20 px-6">
-        <div className="container mx-auto">
+      <section className="gradient-hero pt-32 pb-20 px-6 relative overflow-hidden">
+        {/* Floating shopping icons */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div className="absolute top-20 right-16 opacity-15 animate-pulse" style={{ animationDuration: '2.5s' }}>
+            <ShoppingCart className="w-20 h-20 text-primary" />
+          </div>
+          <div className="absolute bottom-24 left-20 opacity-10 animate-bounce" style={{ animationDuration: '3.5s' }}>
+            <svg className="w-24 h-24 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+          </div>
+          <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto relative z-10">
           <div className="max-w-4xl animate-fade-in">
             <h1 className="text-7xl md:text-8xl font-bold mb-8">
               Orju <span className="text-gradient">Merchandise</span>
@@ -137,8 +153,24 @@ export default function Merchandise() {
               </button>
             </div>
           </div>
-          {loading && <p>Loading...</p>}
-          {error && <p className="text-red-500">Error: {error}</p>}
+          {loading && (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mb-4"></div>
+              <p className="text-lg text-muted-foreground">Loading products...</p>
+            </div>
+          )}
+          {error && (
+            <div className="bg-destructive/10 border border-destructive/50 rounded-lg p-6 text-center">
+              <p className="text-destructive font-semibold text-lg">Error loading products</p>
+              <p className="text-muted-foreground mt-2">{error}</p>
+            </div>
+          )}
+          {!loading && !error && items.length === 0 && (
+            <div className="text-center py-20">
+              <ShoppingCart className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <p className="text-xl text-muted-foreground">No products available at the moment</p>
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center animate-fade-in-up">
             {items.map((item) => {
               const convertedPrice = item.price * rates[currency];
@@ -154,19 +186,16 @@ export default function Merchandise() {
               }
               return (
                 <div key={item.id} className="bg-card/80 rounded-lg border border-border/50 shadow-card p-10 w-full max-w-md flex flex-col items-center">
-                  <img
-                    src={
-                      item.image_url
-                        ? item.image_url.startsWith("http") || item.image_url.startsWith("/")
-                          ? item.image_url
-                          : "/" + item.image_url.replace(/^\/+/, "")
-                        : "/placeholder.svg"
-                    }
-                    alt={item.name}
-                    className="w-full h-72 object-cover mb-6 rounded shadow-lg"
-                    style={{ maxWidth: 320 }}
-                    onError={e => { e.currentTarget.src = "/placeholder.svg"; }}
-                  />
+                  <div className="w-full h-72 mb-6 rounded shadow-lg bg-muted/30 flex items-center justify-center overflow-hidden" style={{ maxWidth: 320 }}>
+                    <img
+                      src={item.image_url}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = '/placeholder.svg';
+                      }}
+                    />
+                  </div>
                   <h2 className="text-2xl font-bold mb-2 text-center">{item.name}</h2>
                   <p className="text-base text-muted-foreground text-center mb-2">{item.description}</p>
                   <span className="text-lg font-bold mb-3">{priceString}</span>

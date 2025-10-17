@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
@@ -25,7 +26,7 @@ const Contact = () => {
     stayInTouch: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Basic required field validation
     const requiredFields = [
@@ -41,23 +42,79 @@ const Contact = () => {
         return;
       }
     }
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. We'll get back to you as soon as possible.",
-    });
-    setFormData({
-      firstName: "",
-      lastName: "",
-      companyWebsite: "",
-      jobTitle: "",
-      workEmail: "",
-      region: "",
-      category: "",
-      help: "",
-      budget: "",
-      hearAbout: "",
-      stayInTouch: false,
-    });
+
+    // Insert into Supabase contacts table
+    try {
+      const { data, error } = await supabase.from('contacts').insert([
+        {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          company_website: formData.companyWebsite,
+          job_title: formData.jobTitle,
+          email: formData.workEmail,
+          region: formData.region,
+          category: formData.category,
+          message: formData.help,
+          budget: formData.budget,
+          hear_about: formData.hearAbout,
+          stay_in_touch: formData.stayInTouch,
+        }
+      ]).select();
+
+      if (error) throw error;
+
+      // Invoke Supabase Edge Function to send to Brevo
+      try {
+        const payload = {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          company: formData.companyWebsite,
+          jobTitle: formData.jobTitle,
+          email: formData.workEmail,
+          region: formData.region,
+          category: formData.category,
+          help: formData.help,
+          budget: formData.budget,
+          hearAbout: formData.hearAbout,
+          stayInTouch: formData.stayInTouch,
+        };
+
+        console.log('Invoking Edge Function with payload:', payload);
+
+        // Using supabase-js invoke
+        const { data: funcData, error: funcError } = await supabase.functions.invoke('send-contact-email', { 
+          body: payload 
+        });
+
+        if (funcError) {
+          console.error('Edge function error:', funcError);
+          throw funcError;
+        }
+
+        console.log('Edge function response:', funcData);
+      } catch (fnErr) {
+        console.error('Edge function error', fnErr);
+        // Don't throw - we still saved to DB, just log the error
+      }
+
+      toast({ title: "Message Sent!", description: "Thank you for reaching out. We'll get back to you as soon as possible." });
+      setFormData({
+        firstName: "",
+        lastName: "",
+        companyWebsite: "",
+        jobTitle: "",
+        workEmail: "",
+        region: "",
+        category: "",
+        help: "",
+        budget: "",
+        hearAbout: "",
+        stayInTouch: false,
+      });
+    } catch (err: any) {
+      console.error('Insert error', err);
+      toast({ title: 'Failed to send message', description: err?.message || String(err), variant: 'destructive' });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -84,7 +141,7 @@ const Contact = () => {
       <Navigation />
       
       {/* Hero Section */}
-  <section className="relative gradient-hero pt-28 pb-14 px-3 sm:px-6 overflow-hidden">
+      <section className="relative gradient-hero pt-32 pb-20 px-6 overflow-hidden">
         <img
           src="/hero-bg.svg"
           alt="Decorative background"
@@ -92,13 +149,30 @@ const Contact = () => {
           style={{ left: '50%', transform: 'translateX(-50%)', top: 20 }}
           aria-hidden="true"
         />
-        <div className="container mx-auto relative z-10 flex flex-col items-center text-center">
-          <h1 className="text-5xl xs:text-7xl md:text-8xl font-bold mb-8 xs:mb-10 leading-tight animate-fade-in">
-            Contact <span className="text-gradient">Orju Media</span>
-          </h1>
-          <p className="text-2xl xs:text-3xl text-muted-foreground max-w-2xl mb-10 xs:mb-14 animate-fade-in" style={{animationDelay: '100ms'}}>
-            We'd love to hear from you. Whether you have a project in mind, want to collaborate, or just want to say hello, fill out the form or reach us through the details below.
-          </p>
+        
+        {/* Floating contact-themed icons */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div className="absolute top-20 right-20 opacity-15 animate-pulse" style={{ animationDuration: '2s' }}>
+            <Mail className="w-20 h-20 text-primary" />
+          </div>
+          <div className="absolute bottom-32 left-16 opacity-10 animate-bounce" style={{ animationDuration: '3.5s' }}>
+            <Phone className="w-16 h-16 text-purple-500" />
+          </div>
+          <div className="absolute top-1/2 right-1/3 opacity-10 animate-pulse" style={{ animationDuration: '4s' }}>
+            <MapPin className="w-24 h-24 text-blue-500" />
+          </div>
+          <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto relative z-10">
+          <div className="max-w-4xl animate-fade-in">
+            <h1 className="text-7xl md:text-8xl font-bold mb-8">
+              Contact <span className="text-gradient">Orju Media</span>
+            </h1>
+            <p className="text-3xl text-muted-foreground">
+              We'd love to hear from you. Whether you have a project in mind, want to collaborate, or just want to say hello, fill out the form or reach us through the details below.
+            </p>
+          </div>
         </div>
       </section>
 

@@ -181,10 +181,25 @@ export default function Cart() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute top-28 right-24 opacity-10 animate-pulse" style={{ animationDuration: '3s' }}>
+          <svg className="w-28 h-28 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <div className="absolute bottom-32 left-16 opacity-8 animate-bounce" style={{ animationDuration: '3.5s' }}>
+          <svg className="w-24 h-24 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+        </div>
+        <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+      </div>
+      
       <SEO title="Your Cart | Orju Merchandise" description="Review items in your cart" />
       <Navigation />
-  <main className="container mx-auto pt-32 pb-32 px-4">
+      <main className="container mx-auto pt-32 pb-32 px-4 relative z-10">
         <h1 className="text-4xl font-bold mb-6">Your Cart</h1>
 
         {cart.length === 0 ? (

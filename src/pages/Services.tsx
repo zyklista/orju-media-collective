@@ -81,7 +81,7 @@ const Services = () => {
 									/>
 			<Navigation />
 			{/* Hero Section */}
-			<section className="gradient-hero pt-28 pb-14 px-3 sm:px-6 relative overflow-hidden">
+			<section className="gradient-hero pt-32 pb-20 px-6 relative overflow-hidden">
 				<img
 					src="/hero-bg.svg"
 					alt="Decorative background"
@@ -89,14 +89,32 @@ const Services = () => {
 					style={{ left: '50%', transform: 'translateX(-50%)', top: 0 }}
 					aria-hidden="true"
 				/>
-				<div className="container mx-auto text-center relative z-10">
-					<div className="max-w-4xl mx-auto animate-fade-in">
-						<h1 className="text-3xl xs:text-5xl md:text-7xl font-bold mb-4 xs:mb-6">
+				
+				{/* Floating media-themed icons */}
+				<div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+					<div className="absolute top-24 left-12 opacity-15 animate-pulse" style={{ animationDuration: '2.5s' }}>
+						<svg className="w-16 h-16 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+						</svg>
+					</div>
+					<div className="absolute bottom-20 right-16 opacity-10 animate-bounce" style={{ animationDuration: '3.5s' }}>
+						<svg className="w-20 h-20 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+						</svg>
+					</div>
+					<div className="absolute top-1/3 right-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
+				</div>
+				
+				<div className="container mx-auto relative z-10">
+					<div className="max-w-4xl animate-fade-in">
+						<h1 className="text-7xl md:text-8xl font-bold mb-8">
 							Our <span className="text-gradient">Services</span>
 						</h1>
-						<p className="text-2xl xs:text-3xl text-muted-foreground max-w-2xl mx-auto">
-							Discover a range of creative and digital services designed to help you grow, connect, and succeed. Whether you’re launching your first website, building a brand, or expanding your media presence, our team is ready to support your journey every step of the way.<br/>
-							<span className="text-foreground font-extrabold">Let’s create something amazing together.</span>
+						<p className="text-3xl text-muted-foreground">
+							Discover a range of creative and digital services designed to help you grow, connect, and succeed. Whether you're launching your first website, building a brand, or expanding your media presence, our team is ready to support your journey every step of the way.
+						</p>
+						<p className="text-3xl text-foreground font-bold mt-6">
+							Let's create something amazing together.
 						</p>
 					</div>
 				</div>

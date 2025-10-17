@@ -105,10 +105,199 @@ These values are used by the frontend to call Supabase and the Edge Function. Do
 
 ---
 
-## 8. Security notes
+## 8. Domain not showing / Blank page issues
+
+If your domain shows nothing or a blank page, follow these steps:
+
+### A. Check DNS Propagation
+```bash
+# Check if DNS is pointing to Vercel
+nslookup orjumedia.com
+dig orjumedia.com
+```
+
+### B. Verify Vercel Configuration
+1. In Vercel Dashboard -> Settings -> Domains, ensure:
+   - `orjumedia.com` shows as "Valid Configuration" ✓
+   - `www.orjumedia.com` shows as "Valid Configuration" ✓
+2. Check Recent Deployments:
+   - Go to Deployments tab
+   - Ensure latest deployment is "Ready" (not "Failed" or "Building")
+   - Click on deployment -> View Build Logs for any errors
+
+### C. Check Build Output
+Ensure your build is producing files correctly:
+1. Run `npm run build` locally
+2. Check that `dist/` folder contains:
+   - `index.html`
+   - `assets/` folder with JS/CSS files
+3. If build fails, fix errors before deploying
+
+### D. SPA Routing Configuration
+The `vercel.json` file (now created) ensures all routes redirect to `index.html` for proper React Router navigation. This fixes:
+- Direct URL access (e.g., `orjumedia.com/about`)
+- Page refreshes on sub-routes
+- 404 errors on navigation
+
+### E. Check Environment Variables
+In Vercel Dashboard -> Settings -> Environment Variables:
+1. Ensure all required variables are set:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+2. Click "Redeploy" after adding variables
+
+### F. Clear Browser Cache
+1. Hard refresh: `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (Mac)
+2. Or open in Incognito/Private mode
+3. Or clear browser cache completely
+
+### G. Check Vercel Build Settings
+In Vercel Dashboard -> Settings -> General:
+- Framework Preset: `Vite`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+
+### H. Force Redeploy
+1. Go to Deployments tab
+2. Click "..." on latest deployment
+3. Click "Redeploy"
+4. Check "Use existing Build Cache" (uncheck if having issues)
+
+### I. Check Browser Console
+1. Open browser DevTools (F12)
+2. Go to Console tab
+3. Look for errors (red messages)
+4. Check Network tab for failed requests
+
+### J. Hostinger DNS Settings (Example)
+```
+Type: A
+Host: @ (or leave blank for root domain)
+Points to: 76.76.21.21 (use the IP Vercel provides)
+TTL: 14400 (or Automatic)
+
+Type: CNAME  
+Host: www
+Points to: cname.vercel-dns.com
+TTL: 14400 (or Automatic)
+```
+
+**Note:** Use the EXACT values shown in your Vercel dashboard, not these examples!
+
+---
+
+## 9. Deploy Supabase Edge Functions
+
+The contact form uses a Supabase Edge Function to send data to Brevo (Sendinblue) for email automation and contact management.
+
+### A. Deploy the Edge Function
+
+1. Install Supabase CLI if you haven't already:
+```bash
+npm install -g supabase
+```
+
+2. Login to Supabase:
+```bash
+supabase login
+```
+
+3. Link your project (replace with your project reference):
+```bash
+supabase link --project-ref your-project-ref
+```
+
+4. Deploy the function:
+```bash
+supabase functions deploy send-contact-email
+```
+
+### B. Set Required Secrets
+
+The Edge Function requires two secrets to be set in Supabase:
+
+1. **BREVO_API_KEY**: Your Brevo (Sendinblue) API key
+   - Get this from: https://app.brevo.com/settings/keys/api
+   - Should look like: `xkeysib-xxxxxxxxxxxxx...`
+
+2. **BREVO_API_KEY_LIST_ID**: The Brevo list ID for marketing contacts
+   - Get this from: https://app.brevo.com/contact/list
+   - Click on your list and find the ID in the URL (e.g., `2`, `5`, `10`)
+   - Contacts who check "stay in touch" will be automatically added to this list
+
+Set the secrets using Supabase CLI:
+
+```bash
+# Set Brevo API Key
+supabase secrets set BREVO_API_KEY=xkeysib-your-actual-api-key-here
+
+# Set Brevo List ID (the numeric ID of your marketing list)
+supabase secrets set BREVO_API_KEY_LIST_ID=2
+```
+
+Or set them via the Supabase Dashboard:
+1. Go to https://supabase.com/dashboard/project/YOUR_PROJECT/settings/functions
+2. Click "Edge Functions" in the sidebar
+3. Click "Manage secrets"
+4. Add both secrets
+
+### C. Verify Function Deployment
+
+Test the function after deployment:
+
+```bash
+# Test locally first
+supabase functions serve send-contact-email
+
+# In another terminal, test with curl
+curl -X POST http://localhost:54321/functions/v1/send-contact-email \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "firstName": "Test",
+    "lastName": "User",
+    "stayInTouch": true
+  }'
+```
+
+### D. How the Contact Form Works
+
+When a user submits the contact form:
+
+1. **Frontend (Contact.tsx)**: 
+   - Validates all required fields
+   - Inserts contact data into Supabase `contacts` table
+   - Invokes the `send-contact-email` Edge Function
+
+2. **Edge Function (send-contact-email)**:
+   - Creates/updates contact in Brevo with all details
+   - If user checked "stay in touch", adds them to your Brevo marketing list (ID from `BREVO_API_KEY_LIST_ID`)
+   - Sends notification email to `hello@orjumedia.com` with submission details
+
+3. **Brevo**:
+   - Stores contact with attributes (name, company, job title, region, etc.)
+   - Adds to list for newsletter/marketing (if opted in)
+   - Delivers notification email to your team
+
+### E. Brevo Configuration
+
+Make sure in your Brevo account:
+
+1. **Verify sender email**: `noreply@orjumedia.com` must be verified in Brevo
+2. **Create a list**: For marketing contacts (get the list ID)
+3. **API key permissions**: Make sure your API key has permissions for:
+   - Contacts management
+   - Transactional emails (SMTP)
+
+---
+
+## 10. Security notes
 
 - Never commit `.env` with secrets.
 - Keep `STRIPE_SECRET_KEY` only in server-side secrets (Supabase Function Secrets or Vercel Server Environment if you implement server-side handlers on Vercel). Use the least-privilege keys.
+- Keep `BREVO_API_KEY` and `BREVO_API_KEY_LIST_ID` only in Supabase Function Secrets, never in frontend environment variables.
+- Use Row Level Security (RLS) on your Supabase `contacts` table if needed.
 
 ---
 

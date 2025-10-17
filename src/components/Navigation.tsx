@@ -27,9 +27,10 @@ export const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-lg bg-background/80">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold">
+          <Link to="/" className="text-2xl font-bold flex items-center">
+            <img src="/favicon.png" alt="ORJU" className="w-6 h-6 inline-block mr-1" />
             <span className="text-gradient">ORJU</span>
-            <span className="text-foreground"> MEDIA</span>
+            <span className="text-foreground">&nbsp;MEDIA</span>
           </Link>
 
           {/* Desktop Navigation */}
