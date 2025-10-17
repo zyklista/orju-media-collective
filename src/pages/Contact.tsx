@@ -81,15 +81,24 @@ const Contact = () => {
 
         console.log('Invoking Edge Function with payload:', payload);
 
-        // Using supabase-js invoke with explicit method
-        const { data: funcData, error: funcError } = await supabase.functions.invoke('send-contact-email', { 
-          body: payload,
-          method: 'POST'
+        // Direct fetch to Edge Function (avoids 405 error)
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+        const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+        
+        const funcResponse = await fetch(`${supabaseUrl}/functions/v1/send-contact-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${supabaseAnonKey}`
+          },
+          body: JSON.stringify(payload)
         });
 
-        if (funcError) {
-          console.error('Edge function error:', funcError);
-          throw funcError;
+        const funcData = await funcResponse.json();
+        
+        if (!funcResponse.ok) {
+          console.error('Edge function error:', funcResponse.status, funcData);
+          throw new Error(funcData.error || 'Edge function failed');
         }
 
         console.log('Edge function response:', funcData);
