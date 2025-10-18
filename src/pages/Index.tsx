@@ -109,7 +109,7 @@ const Index = () => {
           </div>
           {/* Hero Video */}
           <div className="w-full md:flex-1 flex justify-center items-center animate-fade-in order-1 md:order-2">
-            <div className="relative rounded-2xl md:rounded-3xl shadow-card w-full max-w-sm md:max-w-md overflow-hidden border border-border bg-muted">
+            <div className="relative rounded-2xl md:rounded-3xl shadow-card w-full max-w-xs md:max-w-sm overflow-hidden border border-border bg-muted">
               <div className="relative w-full" style={{ aspectRatio: '9/16' }}>
                 {/* Orju Media brand video - 9:16 portrait format */}
                 <video
