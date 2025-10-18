@@ -111,7 +111,7 @@ const Index = () => {
           <div className="w-full md:flex-1 flex justify-center items-center animate-fade-in order-1 md:order-2">
             <div className="relative rounded-2xl md:rounded-3xl shadow-card w-full max-w-md md:max-w-lg overflow-hidden border border-border bg-muted">
               <div className="relative w-full aspect-video">
-                {/* Media production video - using smaller file for faster loading */}
+                {/* Orju Media brand video */}
                 <video
                   autoPlay
                   loop
@@ -121,9 +121,8 @@ const Index = () => {
                   className="w-full h-full object-cover"
                   poster="/sample-hero.jpg"
                 >
-                  {/* Smaller, optimized video files */}
-                  <source src="https://assets.mixkit.co/videos/preview/mixkit-young-woman-recording-herself-with-her-cell-phone-29-large.mp4" type="video/mp4" />
-                  <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-in-an-office-4630-large.mp4" type="video/mp4" />
+                  {/* Your custom Orju Media video */}
+                  <source src="/orju.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
                 
