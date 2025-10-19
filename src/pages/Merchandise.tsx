@@ -48,18 +48,34 @@ export default function Merchandise() {
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
+      
+      // Debug: Check if Supabase is configured
+      console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL);
+      console.log('Supabase Key exists:', !!import.meta.env.VITE_SUPABASE_ANON_KEY);
       console.log('Fetching products from Supabase...');
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) {
-        console.error('Supabase error:', error);
-        setError(error.message);
-      } else {
-        console.log('Products fetched:', data);
-        setItems(data || []);
+      
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .order("created_at", { ascending: false });
+          
+        if (error) {
+          console.error('Supabase error:', error);
+          console.error('Error details:', JSON.stringify(error, null, 2));
+          setError(`Error: ${error.message || 'Failed to load products'}`);
+        } else {
+          console.log('Products fetched successfully:', data);
+          setItems(data || []);
+          if (!data || data.length === 0) {
+            setError('No products found');
+          }
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+        setError(`Failed to connect: ${err}`);
       }
+      
       setLoading(false);
     };
     fetchItems();
