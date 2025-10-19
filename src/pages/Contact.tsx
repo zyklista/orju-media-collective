@@ -64,6 +64,7 @@ const Contact = () => {
       if (error) throw error;
 
       // Invoke Supabase Edge Function to send to Brevo
+      let edgeFunctionSuccess = false;
       try {
         const payload = {
           firstName: formData.firstName,
@@ -85,6 +86,16 @@ const Contact = () => {
         const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
         const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
         
+        // Validate environment variables
+        if (!supabaseUrl || !supabaseAnonKey) {
+          console.error('Missing Supabase environment variables');
+          console.error('VITE_SUPABASE_URL:', supabaseUrl ? 'SET' : 'MISSING');
+          console.error('VITE_SUPABASE_ANON_KEY:', supabaseAnonKey ? 'SET' : 'MISSING');
+          throw new Error('Supabase configuration missing');
+        }
+        
+        console.log('Calling Edge Function at:', `${supabaseUrl}/functions/v1/send-contact-email`);
+        
         const funcResponse = await fetch(`${supabaseUrl}/functions/v1/send-contact-email`, {
           method: 'POST',
           headers: {
@@ -94,6 +105,7 @@ const Contact = () => {
           body: JSON.stringify(payload)
         });
 
+        console.log('Edge Function status:', funcResponse.status);
         const funcData = await funcResponse.json();
         
         if (!funcResponse.ok) {
@@ -102,12 +114,23 @@ const Contact = () => {
         }
 
         console.log('Edge function response:', funcData);
-      } catch (fnErr) {
+        edgeFunctionSuccess = true;
+      } catch (fnErr: any) {
         console.error('Edge function error', fnErr);
-        // Don't throw - we still saved to DB, just log the error
+        console.error('Error details:', fnErr.message);
       }
 
-      toast({ title: "Message Sent!", description: "Thank you for reaching out. We'll get back to you as soon as possible." });
+      // Show appropriate success message
+      if (edgeFunctionSuccess) {
+        toast({ title: "Message Sent!", description: "Thank you for reaching out. We'll get back to you as soon as possible." });
+      } else {
+        toast({ 
+          title: "Message Saved", 
+          description: "Your message was saved successfully. We'll get back to you soon!",
+          variant: "default"
+        });
+      }
+      
       setFormData({
         firstName: "",
         lastName: "",
