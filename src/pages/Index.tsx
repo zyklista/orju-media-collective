@@ -122,7 +122,7 @@ const Index = () => {
                   poster="/sample-hero.jpg"
                 >
                   {/* Your custom Orju Media video */}
-                  <source src="/orju.mp4" type="video/mp4" />
+                  <source src="/orjumedia.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
                 
