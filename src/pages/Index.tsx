@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Code, Megaphone, Video, FileText } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 const services = [
   {
@@ -33,6 +34,18 @@ const services = [
 ];
 
 const Index = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    // Force video to play when component mounts
+    if (videoRef.current) {
+      videoRef.current.play().catch(error => {
+        console.log('Autoplay prevented:', error);
+        // Autoplay was prevented, but video will play on user interaction
+      });
+    }
+  }, []);
+
   return (
     <div className="min-h-screen">
       <SEO
@@ -113,13 +126,15 @@ const Index = () => {
               <div className="relative w-full" style={{ aspectRatio: '9/16' }}>
                 {/* Orju Media brand video - 9:16 portrait format */}
                 <video
+                  ref={videoRef}
                   autoPlay
                   loop
                   muted
                   playsInline
-                  preload="metadata"
+                  preload="auto"
                   className="w-full h-full object-cover"
                   poster="/sample-hero.jpg"
+                  controls={false}
                 >
                   {/* Your custom Orju Media video */}
                   <source src="/orjumedia.mp4" type="video/mp4" />
