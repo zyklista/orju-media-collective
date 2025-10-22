@@ -9,8 +9,22 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
+import { UnderConstruction } from "@/components/UnderConstruction";
 
 const Contact = () => {
+  // Temporary: Show under construction page
+  const SHOW_UNDER_CONSTRUCTION = true;
+
+  if (SHOW_UNDER_CONSTRUCTION) {
+    return (
+      <UnderConstruction
+        pageName="Contact"
+        pageTitle="Get In Touch"
+        description="We're rebuilding our contact system to serve you better. Our new form will make it easier than ever to connect with us."
+        expectedCompletion="End of October 2025"
+      />
+    );
+  }
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     firstName: "",

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabaseClient";
 import { ShoppingCart } from "lucide-react";
+import { UnderConstruction } from "@/components/UnderConstruction";
 
 type MerchandiseItem = {
   id: string;
@@ -16,6 +17,20 @@ type MerchandiseItem = {
 };
 
 export default function Merchandise() {
+  // Temporary: Show under construction page
+  const SHOW_UNDER_CONSTRUCTION = true;
+
+  if (SHOW_UNDER_CONSTRUCTION) {
+    return (
+      <UnderConstruction
+        pageName="Merchandise"
+        pageTitle="Orju Merch Store"
+        description="We're revamping our merchandise store with new products, better shopping experience, and secure checkout. Stay tuned!"
+        expectedCompletion="Mid November 2025"
+      />
+    );
+  }
+
   const [items, setItems] = useState<MerchandiseItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
