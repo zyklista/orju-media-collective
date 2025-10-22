@@ -49,31 +49,56 @@ export default function Merchandise() {
     const fetchItems = async () => {
       setLoading(true);
       
-      // Debug: Check if Supabase is configured
-      console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL);
-      console.log('Supabase Key exists:', !!import.meta.env.VITE_SUPABASE_ANON_KEY);
-      console.log('Fetching products from Supabase...');
+      // Check if environment variables are set
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      
+      console.log('🛍️ Merchandise Page - Environment Check:');
+      console.log('VITE_SUPABASE_URL:', supabaseUrl ? 'SET ✓' : 'MISSING ✗');
+      console.log('VITE_SUPABASE_ANON_KEY:', supabaseKey ? 'SET ✓' : 'MISSING ✗');
+      
+      if (!supabaseUrl || !supabaseKey) {
+        console.error('❌ Supabase configuration missing!');
+        setError('Configuration Error: Please check environment variables in deployment settings.');
+        setLoading(false);
+        return;
+      }
       
       try {
+        console.log('📦 Fetching products from Supabase...');
+        
         const { data, error } = await supabase
           .from("products")
           .select("*")
           .order("created_at", { ascending: false });
           
         if (error) {
-          console.error('Supabase error:', error);
-          console.error('Error details:', JSON.stringify(error, null, 2));
-          setError(`Error: ${error.message || 'Failed to load products'}`);
+          console.error('❌ Supabase error:', error);
+          console.error('Error code:', error.code);
+          console.error('Error message:', error.message);
+          console.error('Error details:', error.details);
+          
+          // Provide helpful error messages
+          if (error.code === 'PGRST116') {
+            setError('Products table not found. Please contact support.');
+          } else if (error.message.includes('JWT')) {
+            setError('Authentication error. Please check API configuration.');
+          } else {
+            setError(`Database Error: ${error.message}`);
+          }
         } else {
-          console.log('Products fetched successfully:', data);
-          setItems(data || []);
-          if (!data || data.length === 0) {
-            setError('No products found');
+          console.log('✅ Products fetched successfully:', data?.length || 0, 'items');
+          
+          if (data && data.length > 0) {
+            setItems(data);
+            setError(null);
+          } else {
+            setError('No products available at the moment');
           }
         }
       } catch (err) {
-        console.error('Fetch error:', err);
-        setError(`Failed to connect: ${err}`);
+        console.error('❌ Unexpected error:', err);
+        setError(`Connection failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
       }
       
       setLoading(false);
