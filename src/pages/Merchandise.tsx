@@ -18,7 +18,7 @@ type MerchandiseItem = {
 
 export default function Merchandise() {
   // Temporary: Show under construction page
-  const SHOW_UNDER_CONSTRUCTION = true;
+  const SHOW_UNDER_CONSTRUCTION = false;
 
   if (SHOW_UNDER_CONSTRUCTION) {
     return (
