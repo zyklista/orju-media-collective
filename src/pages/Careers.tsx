@@ -72,7 +72,7 @@ const openPositions = [
 
 const Careers = () => {
   // Temporary: Show under construction page
-  const SHOW_UNDER_CONSTRUCTION = false;
+  const SHOW_UNDER_CONSTRUCTION = true;
 
   if (SHOW_UNDER_CONSTRUCTION) {
     return (
