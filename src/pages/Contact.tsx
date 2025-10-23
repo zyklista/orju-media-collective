@@ -108,7 +108,8 @@ const Contact = () => {
           throw new Error('Supabase configuration missing');
         }
         
-        console.log('Calling Edge Function at:', `${supabaseUrl}/functions/v1/send-contact-email`);
+        console.log('🚀 Calling Edge Function at:', `${supabaseUrl}/functions/v1/send-contact-email`);
+        console.log('📦 Payload:', payload);
         
         const funcResponse = await fetch(`${supabaseUrl}/functions/v1/send-contact-email`, {
           method: 'POST',
@@ -119,19 +120,31 @@ const Contact = () => {
           body: JSON.stringify(payload)
         });
 
-        console.log('Edge Function status:', funcResponse.status);
-        const funcData = await funcResponse.json();
+        console.log('📡 Edge Function HTTP status:', funcResponse.status);
+        console.log('📡 Edge Function status text:', funcResponse.statusText);
+        
+        const responseText = await funcResponse.text();
+        console.log('📡 Edge Function raw response:', responseText);
+        
+        let funcData;
+        try {
+          funcData = JSON.parse(responseText);
+        } catch (parseErr) {
+          console.error('❌ Failed to parse Edge Function response:', parseErr);
+          throw new Error('Invalid response from Edge Function');
+        }
         
         if (!funcResponse.ok) {
-          console.error('Edge function error:', funcResponse.status, funcData);
+          console.error('❌ Edge function error:', funcResponse.status, funcData);
           throw new Error(funcData.error || 'Edge function failed');
         }
 
-        console.log('Edge function response:', funcData);
+        console.log('✅ Edge function response:', funcData);
         edgeFunctionSuccess = true;
       } catch (fnErr: any) {
-        console.error('Edge function error', fnErr);
-        console.error('Error details:', fnErr.message);
+        console.error('❌ Edge function error:', fnErr);
+        console.error('❌ Error details:', fnErr.message);
+        console.error('❌ Full error:', JSON.stringify(fnErr, null, 2));
       }
 
       // Show appropriate success message
